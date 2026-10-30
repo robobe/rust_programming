@@ -1,0 +1,1 @@
+/home/user/learnning/rust_programming/examples/00-first-lesson/linux-compiler-output/target/release/linux-compiler-output: /home/user/learnning/rust_programming/examples/00-first-lesson/linux-compiler-output/src/lib.rs /home/user/learnning/rust_programming/examples/00-first-lesson/linux-compiler-output/src/main.rs
