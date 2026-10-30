@@ -33,3 +33,4 @@ nav:
   - Roadmap: roadmap.md
   - Syllabus: syllabus.md
   - "Module 0: First lesson": modules/00-first-lesson/index.md
+  - "Module 2: Ownership and borrowing": modules/02-ownership-and-borrowing/index.md
