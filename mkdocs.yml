@@ -1,5 +1,6 @@
 site_name: "Rust Programming: From Zero to Useful"
 site_description: A practical, beginner-friendly path for learning Rust
+site_dir: dist
 theme:
   name: material
   logo: assets/rust-mark.svg
