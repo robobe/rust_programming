@@ -32,5 +32,7 @@ nav:
   - Home: index.md
   - Roadmap: roadmap.md
   - Syllabus: syllabus.md
-  - "Module 0: First lesson": modules/00-first-lesson/index.md
+  - Module 0:
+      - Setup and Hello World: modules/00-first-lesson/index.md
+      - From source to DEB: modules/00-first-lesson/from-source-to-deb.md
   - "Module 2: Ownership and borrowing": modules/02-ownership-and-borrowing/index.md
