@@ -1,0 +1,34 @@
+site_name: "Rust Programming: From Zero to Useful"
+site_description: A practical, beginner-friendly path for learning Rust
+theme:
+  name: material
+  logo: assets/rust-mark.svg
+  favicon: assets/rust-mark.svg
+  features:
+    - content.code.copy
+extra_javascript:
+  - javascripts/quiz.js
+  - javascripts/mermaid.mjs
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+extra_css:
+  - stylesheets/quiz.css
+  - stylesheets/mermaid.css
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.snippets:
+      base_path:
+        - .
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Home: index.md
+  - Roadmap: roadmap.md
+  - Syllabus: syllabus.md
+  - "Module 0: First lesson": modules/00-first-lesson/index.md

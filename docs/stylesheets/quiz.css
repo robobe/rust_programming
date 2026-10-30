@@ -1,0 +1,11 @@
+.quiz-check {
+  background: var(--md-primary-fg-color);
+  border: 0;
+  border-radius: 0.2rem;
+  color: var(--md-primary-bg-color);
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+}
+
+.quiz-result { font-weight: 600; }
