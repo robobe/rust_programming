@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 650" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual memory layout for collection iterators</title>
+  <desc id="desc">Four panels show a Vec handle owning heap elements, iter borrowing elements, iter_mut writing elements, and into_iter consuming the vector to yield owned values.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .stack { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .heap { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .read { fill: #f3e8ff; stroke: #7c3aed; stroke-width: 1.5; }
+    .write { fill: #fee2e2; stroke: #dc2626; stroke-width: 1.5; }
+    .consume { fill: #fef3c7; stroke: #d97706; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .arrow { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+    .write-arrow { stroke: #dc2626; stroke-width: 2.5; fill: none; marker-end: url(#writehead); }
+    .consume-arrow { stroke: #d97706; stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; marker-end: url(#consumehead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+    <marker id="writehead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+    <marker id="consumehead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+  </defs>
+
+  <text x="590" y="30" text-anchor="middle" class="heading">Iterators borrow, mutate, or consume a collection</text>
+
+  <g transform="translate(20 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">1. owned Vec</text>
+    <text x="135" y="58" text-anchor="middle" class="text">vec![1, 2, 3]</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="230" height="58" rx="6" class="stack"/>
+    <text x="135" y="145" text-anchor="middle" class="text">Vec: ptr · len · cap</text>
+    <text x="135" y="165" text-anchor="middle" class="text">owner</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="20" y="270" width="65" height="52" rx="6" class="heap"/><text x="52" y="301" text-anchor="middle" class="text">1</text>
+    <rect x="102" y="270" width="65" height="52" rx="6" class="heap"/><text x="134" y="301" text-anchor="middle" class="text">2</text>
+    <rect x="185" y="270" width="65" height="52" rx="6" class="heap"/><text x="217" y="301" text-anchor="middle" class="text">3</text>
+    <path d="M135 178 C135 220 135 230 135 267" class="arrow"/>
+    <text x="20" y="490" class="text">Vec owns allocation and items</text>
+  </g>
+
+  <g transform="translate(310 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">2. iter()</text>
+    <text x="135" y="58" text-anchor="middle" class="text">read each item</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="125" height="58" rx="6" class="stack"/>
+    <text x="82" y="145" text-anchor="middle" class="text">Vec owner</text>
+    <text x="82" y="165" text-anchor="middle" class="text">still valid</text>
+    <rect x="160" y="120" width="90" height="58" rx="6" class="read"/>
+    <text x="205" y="145" text-anchor="middle" class="text">&amp;T</text>
+    <text x="205" y="165" text-anchor="middle" class="text">reader</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="20" y="270" width="65" height="52" rx="6" class="heap"/><text x="52" y="301" text-anchor="middle" class="text">1</text>
+    <rect x="102" y="270" width="65" height="52" rx="6" class="heap"/><text x="134" y="301" text-anchor="middle" class="text">2</text>
+    <rect x="185" y="270" width="65" height="52" rx="6" class="heap"/><text x="217" y="301" text-anchor="middle" class="text">3</text>
+    <path d="M205 178 C205 220 150 230 150 267" class="arrow"/>
+    <text x="20" y="490" class="text">read-only borrow</text>
+  </g>
+
+  <g transform="translate(600 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">3. iter_mut()</text>
+    <text x="135" y="58" text-anchor="middle" class="text">update each item</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="125" height="58" rx="6" class="stack"/>
+    <text x="82" y="145" text-anchor="middle" class="text">Vec owner</text>
+    <text x="82" y="165" text-anchor="middle" class="text">temporarily lent</text>
+    <rect x="160" y="120" width="90" height="58" rx="6" class="write"/>
+    <text x="205" y="145" text-anchor="middle" class="text">&amp;mut T</text>
+    <text x="205" y="165" text-anchor="middle" class="text">writer</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="20" y="270" width="65" height="52" rx="6" class="heap"/><text x="52" y="301" text-anchor="middle" class="text">2</text>
+    <rect x="102" y="270" width="65" height="52" rx="6" class="heap"/><text x="134" y="301" text-anchor="middle" class="text">3</text>
+    <rect x="185" y="270" width="65" height="52" rx="6" class="heap"/><text x="217" y="301" text-anchor="middle" class="text">4</text>
+    <path d="M205 178 C205 220 150 230 150 267" class="write-arrow"/>
+    <text x="20" y="490" class="text">one mutable item at a time</text>
+  </g>
+
+  <g transform="translate(890 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">4. into_iter()</text>
+    <text x="135" y="58" text-anchor="middle" class="text">consume the Vec</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="230" height="58" rx="6" class="consume"/>
+    <text x="135" y="145" text-anchor="middle" class="text">Vec owner consumed</text>
+    <text x="135" y="165" text-anchor="middle" class="text">no longer usable</text>
+    <text x="20" y="250" class="label">OUTPUT VALUES</text>
+    <rect x="20" y="270" width="65" height="52" rx="6" class="consume"/><text x="52" y="301" text-anchor="middle" class="text">1</text>
+    <rect x="102" y="270" width="65" height="52" rx="6" class="consume"/><text x="134" y="301" text-anchor="middle" class="text">2</text>
+    <rect x="185" y="270" width="65" height="52" rx="6" class="consume"/><text x="217" y="301" text-anchor="middle" class="text">3</text>
+    <path d="M135 178 C135 220 135 230 135 267" class="consume-arrow"/>
+    <text x="20" y="490" class="text">elements move into pipeline</text>
+  </g>
+</svg>

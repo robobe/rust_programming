@@ -61,6 +61,8 @@ Continue with [Mutable borrowing](05-mutable-borrowing.md).
 - Avoiding mutation while an element is borrowed
 - Returning references into collections safely
 
+Continue with [Borrowing collections and iterators](06-borrowing-collections-and-iterators.md).
+
 ### 7. Slices and API boundaries
 
 - Prefer `&str` over `&String` in read-only APIs
