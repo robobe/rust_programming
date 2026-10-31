@@ -554,6 +554,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="USB Hello Pico application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens at startup?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -855,6 +872,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="USB Hello Pico application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens at startup?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -988,18 +1022,29 @@ compiler is not required.</p>
 <h2 id="usb-hello-pico-application">USB Hello Pico application</h2>
 <p>The application is <code>#![no_std]</code> and <code>#![no_main]</code>. It initializes the RP2040
 clocks, creates a USB CDC serial class, and writes a greeting while polling USB.</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#![no_std]</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// A bare-metal firmware has no operating system or standard library.</span>
+<span class="cp">#![no_std]</span>
+<span class="c1">// The Cortex-M runtime supplies the entry point instead of a normal `main` ABI.</span>
 <span class="cp">#![no_main]</span>
 
+<span class="c1">// Halt the processor if an unrecoverable panic occurs.</span>
 <span class="k">use</span><span class="w"> </span><span class="n">panic_halt</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">_</span><span class="p">;</span>
+<span class="c1">// `entry` marks the reset entry point, `hal` provides board drivers, and `pac`</span>
+<span class="c1">// exposes the RP2040 peripheral registers.</span>
 <span class="k">use</span><span class="w"> </span><span class="n">rp_pico</span><span class="p">::{</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">hal</span><span class="p">,</span><span class="w"> </span><span class="n">pac</span><span class="p">};</span>
+<span class="c1">// USB device traits and the CDC serial class used by the host terminal.</span>
 <span class="k">use</span><span class="w"> </span><span class="n">usb_device</span><span class="p">::{</span><span class="n">class_prelude</span><span class="p">::</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">prelude</span><span class="p">::</span><span class="o">*</span><span class="p">};</span>
 <span class="k">use</span><span class="w"> </span><span class="n">usbd_serial</span><span class="p">::</span><span class="n">SerialPort</span><span class="p">;</span>
 
+<span class="c1">// Firmware entry points never return, so the function returns the never type.</span>
 <span class="cp">#[entry]</span>
 <span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Take ownership of the device peripherals exactly once after reset.</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">peripherals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pac</span><span class="p">::</span><span class="n">Peripherals</span><span class="p">::</span><span class="n">take</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// The watchdog is required while the RP2040 clocks are configured.</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">watchdog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hal</span><span class="p">::</span><span class="n">Watchdog</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">peripherals</span><span class="p">.</span><span class="n">WATCHDOG</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Configure the Pico oscillator, system PLL, and USB PLL.</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">clocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hal</span><span class="p">::</span><span class="n">clocks</span><span class="p">::</span><span class="n">init_clocks_and_plls</span><span class="p">(</span>
 <span class="w">        </span><span class="n">rp_pico</span><span class="p">::</span><span class="n">XOSC_CRYSTAL_FREQ</span><span class="p">,</span>
 <span class="w">        </span><span class="n">peripherals</span><span class="p">.</span><span class="n">XOSC</span><span class="p">,</span>
@@ -1012,6 +1057,7 @@ clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 <span class="w">    </span><span class="p">.</span><span class="n">ok</span><span class="p">()</span>
 <span class="w">    </span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
 
+<span class="w">    </span><span class="c1">// Create the USB bus that owns the RP2040 USB peripheral and its DPRAM.</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">usb_bus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UsbBusAllocator</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">hal</span><span class="p">::</span><span class="n">usb</span><span class="p">::</span><span class="n">UsbBus</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
 <span class="w">        </span><span class="n">peripherals</span><span class="p">.</span><span class="n">USBCTRL_REGS</span><span class="p">,</span>
 <span class="w">        </span><span class="n">peripherals</span><span class="p">.</span><span class="n">USBCTRL_DPRAM</span><span class="p">,</span>
@@ -1020,20 +1066,41 @@ clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 <span class="w">        </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">peripherals</span><span class="p">.</span><span class="n">RESETS</span><span class="p">,</span>
 <span class="w">    </span><span class="p">));</span>
 
+<span class="w">    </span><span class="c1">// Add a USB CDC-ACM serial interface to the bus.</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">serial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SerialPort</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">usb_bus</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Describe the USB device to the host computer.</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">usb_device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UsbDeviceBuilder</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">usb_bus</span><span class="p">,</span><span class="w"> </span><span class="n">UsbVidPid</span><span class="p">(</span><span class="mh">0x16c0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x27dd</span><span class="p">))</span>
 <span class="w">        </span><span class="p">.</span><span class="n">strings</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">StringDescriptors</span><span class="p">::</span><span class="n">default</span><span class="p">().</span><span class="n">product</span><span class="p">(</span><span class="s">"Hello Pico"</span><span class="p">)])</span>
 <span class="w">        </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
 <span class="w">        </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
 
 <span class="w">    </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Poll services USB enumeration and transfer events.</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">usb_device</span><span class="p">.</span><span class="n">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">serial</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// The demo ignores WouldBlock to keep the example small.</span>
 <span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">b"Hello from Pico!</span><span class="se">\r\n</span><span class="s">"</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>The same code is in the demo's <code>src/main.rs</code>.</p>
+<h3 id="what-happens-at-startup">What happens at startup?</h3>
+<ol>
+<li><code>#![no_std]</code> removes the operating-system-dependent Rust standard library.</li>
+<li><code>#[entry]</code> tells <code>cortex-m-rt</code> which function runs after reset.</li>
+<li><code>pac::Peripherals::take()</code> gives the firmware unique access to hardware
+   registers.</li>
+<li>The watchdog and PLL setup produce the system and USB clocks.</li>
+<li><code>UsbBus</code> owns the RP2040 USB peripheral and its packet memory.</li>
+<li><code>SerialPort</code> creates a USB CDC-ACM interface that Linux exposes as a serial
+   device such as <code>/dev/ttyACM0</code>.</li>
+<li><code>poll</code> keeps USB enumeration and transfers moving. When it reports an event,
+   the example writes <code>Hello from Pico!</code> to the serial endpoint.</li>
+</ol>
+<p>The current demo writes on every successful poll event, so a terminal may show
+the greeting repeatedly while USB traffic is active. That is intentional for a
+small polling demonstration. A production logger would handle <code>WouldBlock</code>,
+buffer messages, and usually rate-limit output.</p>
 <h2 id="project-structure">Project structure</h2>
 <div class="highlight"><pre><span></span><code>rp2040-hello-pico/
 ├── .cargo/

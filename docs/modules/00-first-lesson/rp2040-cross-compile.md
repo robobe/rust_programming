@@ -67,18 +67,29 @@ The application is `#![no_std]` and `#![no_main]`. It initializes the RP2040
 clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 
 ```rust
+// A bare-metal firmware has no operating system or standard library.
 #![no_std]
+// The Cortex-M runtime supplies the entry point instead of a normal `main` ABI.
 #![no_main]
 
+// Halt the processor if an unrecoverable panic occurs.
 use panic_halt as _;
+// `entry` marks the reset entry point, `hal` provides board drivers, and `pac`
+// exposes the RP2040 peripheral registers.
 use rp_pico::{entry, hal, pac};
+// USB device traits and the CDC serial class used by the host terminal.
 use usb_device::{class_prelude::*, prelude::*};
 use usbd_serial::SerialPort;
 
+// Firmware entry points never return, so the function returns the never type.
 #[entry]
 fn main() -> ! {
+    // Take ownership of the device peripherals exactly once after reset.
     let mut peripherals = pac::Peripherals::take().unwrap();
+    // The watchdog is required while the RP2040 clocks are configured.
     let mut watchdog = hal::Watchdog::new(peripherals.WATCHDOG);
+
+    // Configure the Pico oscillator, system PLL, and USB PLL.
     let clocks = hal::clocks::init_clocks_and_plls(
         rp_pico::XOSC_CRYSTAL_FREQ,
         peripherals.XOSC,
@@ -91,6 +102,7 @@ fn main() -> ! {
     .ok()
     .unwrap();
 
+    // Create the USB bus that owns the RP2040 USB peripheral and its DPRAM.
     let usb_bus = UsbBusAllocator::new(hal::usb::UsbBus::new(
         peripherals.USBCTRL_REGS,
         peripherals.USBCTRL_DPRAM,
@@ -99,14 +111,18 @@ fn main() -> ! {
         &mut peripherals.RESETS,
     ));
 
+    // Add a USB CDC-ACM serial interface to the bus.
     let mut serial = SerialPort::new(&usb_bus);
+    // Describe the USB device to the host computer.
     let mut usb_device = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
         .strings(&[StringDescriptors::default().product("Hello Pico")])
         .unwrap()
         .build();
 
     loop {
+        // Poll services USB enumeration and transfer events.
         if usb_device.poll(&mut [&mut serial]) {
+            // The demo ignores WouldBlock to keep the example small.
             let _ = serial.write(b"Hello from Pico!\r\n");
         }
     }
@@ -114,6 +130,24 @@ fn main() -> ! {
 ```
 
 The same code is in the demo's `src/main.rs`.
+
+### What happens at startup?
+
+1. `#![no_std]` removes the operating-system-dependent Rust standard library.
+2. `#[entry]` tells `cortex-m-rt` which function runs after reset.
+3. `pac::Peripherals::take()` gives the firmware unique access to hardware
+   registers.
+4. The watchdog and PLL setup produce the system and USB clocks.
+5. `UsbBus` owns the RP2040 USB peripheral and its packet memory.
+6. `SerialPort` creates a USB CDC-ACM interface that Linux exposes as a serial
+   device such as `/dev/ttyACM0`.
+7. `poll` keeps USB enumeration and transfers moving. When it reports an event,
+   the example writes `Hello from Pico!` to the serial endpoint.
+
+The current demo writes on every successful poll event, so a terminal may show
+the greeting repeatedly while USB traffic is active. That is intentional for a
+small polling demonstration. A production logger would handle `WouldBlock`,
+buffer messages, and usually rate-limit output.
 
 ## Project structure
 
