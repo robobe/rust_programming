@@ -134,8 +134,71 @@ fn make_text() -> String {
 }
 ```
 
-Or, when returning a reference, tie it to data owned by the caller. The
-compiler's rejection prevents a dangling reference from reaching runtime.
+This is the usual choice when the function creates new data: the caller owns
+the returned `String` and will clean it up.
+
+### Alternative 1: borrow from the caller
+
+If the data already belongs to the caller, return a reference tied to that
+input. The caller keeps the ownership, and the returned reference cannot outlive
+the caller's value:
+
+```rust
+fn first_word(text: &str) -> &str {
+    text.split_whitespace().next().unwrap_or("")
+}
+
+let sentence = String::from("Rust is fast");
+let word = first_word(&sentence);
+println!("{word}"); // `sentence` still owns the characters.
+```
+
+The lifetime relationship is expressed by the function signature: the result
+is valid only while the borrowed input is valid.
+
+### Alternative 2: return data with a static lifetime
+
+A string literal is stored in the program's binary and is available for the
+whole program, so returning `&'static str` is safe:
+
+```rust
+fn course_name() -> &'static str {
+    "Rust ownership"
+}
+
+println!("{}", course_name());
+```
+
+This works for fixed data, not for a `String` created inside the function.
+Adding `'static` does not extend the lifetime of local variables.
+
+### Alternative 3: return an owned heap value
+
+If the result must be heap-allocated but should have one clear owner, return an
+owned value directly. `Box<T>` is useful when the value should be explicitly
+owned behind a pointer:
+
+```rust
+fn boxed_text() -> Box<String> {
+    Box::new(String::from("owned on the heap"))
+}
+
+let text = boxed_text();
+println!("{text}");
+```
+
+The caller owns the `Box<String>`, and Rust drops both the box and its `String`
+when `text` leaves scope. In many ordinary cases, returning `String` is simpler
+than returning `Box<String>`.
+
+The compiler's rejection prevents a dangling reference from reaching runtime.
+
+| Need | Prefer |
+| --- | --- |
+| Create new text for the caller | Return `String` |
+| Inspect caller-owned text | Return `&str` tied to an input |
+| Return fixed program text | Return `&'static str` |
+| Explicit ownership behind a pointer | Return `Box<String>` |
 
 ## Checkpoint 4
 

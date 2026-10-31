@@ -779,6 +779,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Reference lifetime and dangling prevention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternative-1-borrow-from-the-caller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 1: borrow from the caller
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-2-return-data-with-a-static-lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 2: return data with a static lifetime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-3-return-an-owned-heap-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 3: return an owned heap value
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -964,6 +1003,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Reference lifetime and dangling prevention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternative-1-borrow-from-the-caller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 1: borrow from the caller
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-2-return-data-with-a-static-lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 2: return data with a static lifetime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-3-return-an-owned-heap-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 3: return an owned heap value
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1145,8 +1223,74 @@ will be dropped when the function ends:</p>
 <span class="w">    </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"owned result"</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Or, when returning a reference, tie it to data owned by the caller. The
-compiler's rejection prevents a dangling reference from reaching runtime.</p>
+<p>This is the usual choice when the function creates new data: the caller owns
+the returned <code>String</code> and will clean it up.</p>
+<h3 id="alternative-1-borrow-from-the-caller">Alternative 1: borrow from the caller</h3>
+<p>If the data already belongs to the caller, return a reference tied to that
+input. The caller keeps the ownership, and the returned reference cannot outlive
+the caller's value:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">first_word</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">split_whitespace</span><span class="p">().</span><span class="n">next</span><span class="p">().</span><span class="n">unwrap_or</span><span class="p">(</span><span class="s">""</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">sentence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust is fast"</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_word</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sentence</span><span class="p">);</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{word}"</span><span class="p">);</span><span class="w"> </span><span class="c1">// `sentence` still owns the characters.</span>
+</code></pre></div>
+<p>The lifetime relationship is expressed by the function signature: the result
+is valid only while the borrowed input is valid.</p>
+<h3 id="alternative-2-return-data-with-a-static-lifetime">Alternative 2: return data with a static lifetime</h3>
+<p>A string literal is stored in the program's binary and is available for the
+whole program, so returning <code>&amp;'static str</code> is safe:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">course_name</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kp">&amp;</span><span class="o">'</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">"Rust ownership"</span>
+<span class="p">}</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">course_name</span><span class="p">());</span>
+</code></pre></div>
+<p>This works for fixed data, not for a <code>String</code> created inside the function.
+Adding <code>'static</code> does not extend the lifetime of local variables.</p>
+<h3 id="alternative-3-return-an-owned-heap-value">Alternative 3: return an owned heap value</h3>
+<p>If the result must be heap-allocated but should have one clear owner, return an
+owned value directly. <code>Box&lt;T&gt;</code> is useful when the value should be explicitly
+owned behind a pointer:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">boxed_text</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">Box</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"owned on the heap"</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">boxed_text</span><span class="p">();</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{text}"</span><span class="p">);</span>
+</code></pre></div>
+<p>The caller owns the <code>Box&lt;String&gt;</code>, and Rust drops both the box and its <code>String</code>
+when <code>text</code> leaves scope. In many ordinary cases, returning <code>String</code> is simpler
+than returning <code>Box&lt;String&gt;</code>.</p>
+<p>The compiler's rejection prevents a dangling reference from reaching runtime.</p>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Prefer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create new text for the caller</td>
+<td>Return <code>String</code></td>
+</tr>
+<tr>
+<td>Inspect caller-owned text</td>
+<td>Return <code>&amp;str</code> tied to an input</td>
+</tr>
+<tr>
+<td>Return fixed program text</td>
+<td>Return <code>&amp;'static str</code></td>
+</tr>
+<tr>
+<td>Explicit ownership behind a pointer</td>
+<td>Return <code>Box&lt;String&gt;</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="checkpoint-4">Checkpoint 4</h2>
 <div class="quiz" data-answer="b" data-explanation="The local String is dropped when the function ends, so returning a reference to it would create a dangling reference.">
 <p>Why does <code>invalid_reference</code> fail to compile?</p>
