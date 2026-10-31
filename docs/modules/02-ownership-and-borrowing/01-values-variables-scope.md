@@ -89,6 +89,41 @@ numbers: [1, 2, 3, 4]
 The vector is automatically cleaned up when the block ends. No manual
 deallocation is needed.
 
+## Why heap-backed types matter
+
+Real programs often need data whose size is known only while the program is
+running: user input, a file, a network response, or a collection of records.
+`String`, `Vec<T>`, and similar types keep that changing data on the heap while
+their small ownership handle stays on the stack.
+
+That extra allocation is useful because the data can grow, but it also creates
+resources that must have one clear owner. Rust's ownership rules make sure the
+allocation is released exactly once and cannot be used after its owner has
+gone away. Borrowing then lets another function temporarily read or modify the
+data without taking ownership:
+
+```rust
+fn add_label(labels: &mut Vec<String>) {
+    labels.push(String::from("Rust"));
+}
+
+fn main() {
+    let mut labels = vec![String::from("safe")];
+    add_label(&mut labels); // borrowed temporarily, then returned to `labels`
+    println!("{labels:?}");
+} // `labels` owns the vector and its strings until cleanup
+```
+
+Expected output:
+
+```text
+["safe", "Rust"]
+```
+
+This is why heap-backed types are central to ownership and borrowing: they let
+Rust support flexible, useful data structures without requiring manual
+`free`, while still making the lifetime and access rules explicit.
+
 ## Complete runnable example
 
 The lesson displays the same source file that you can compile from the matching
