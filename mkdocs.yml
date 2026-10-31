@@ -44,3 +44,4 @@ nav:
       - Move semantics: modules/02-ownership-and-borrowing/02-move-semantics.md
       - Copy and Clone: modules/02-ownership-and-borrowing/03-copy-and-clone.md
       - Shared borrowing: modules/02-ownership-and-borrowing/ownership-and-borrowing.md
+      - Mutable borrowing: modules/02-ownership-and-borrowing/05-mutable-borrowing.md

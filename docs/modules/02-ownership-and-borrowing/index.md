@@ -52,6 +52,8 @@ Continue with [Shared borrowing](ownership-and-borrowing.md).
 - Reborrowing and short mutable-borrow scopes
 - Designing functions that mutate through references
 
+Continue with [Mutable borrowing](05-mutable-borrowing.md).
+
 ### 6. Borrowing collections and iterators
 
 - Borrowing elements from `String`, `Vec<T>`, and maps

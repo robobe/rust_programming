@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 650" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual memory layout for mutable borrowing</title>
+  <desc id="desc">Four panels show an owner, one mutable reference to the same integer, mutation through that reference, and the owner using the updated value after the borrow ends.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .stack { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .value { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .mutable { fill: #fee2e2; stroke: #dc2626; stroke-width: 1.5; }
+    .ended { fill: #f1f5f9; stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .arrow { stroke: #dc2626; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+
+  <text x="590" y="30" text-anchor="middle" class="heading">One mutable reference temporarily controls the owner's storage</text>
+
+  <g transform="translate(20 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">1. owner</text>
+    <text x="135" y="58" text-anchor="middle" class="text">let mut score = 41</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="230" height="58" rx="6" class="stack"/>
+    <text x="135" y="145" text-anchor="middle" class="text">score</text>
+    <text x="135" y="165" text-anchor="middle" class="text">41, owner</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <text x="20" y="280" class="text">not needed for i32</text>
+    <text x="20" y="490" class="text">score owns its value</text>
+  </g>
+
+  <g transform="translate(310 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">2. lend mutably</text>
+    <text x="135" y="58" text-anchor="middle" class="text">add_one(&amp;mut score)</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="125" height="58" rx="6" class="stack"/>
+    <text x="82" y="145" text-anchor="middle" class="text">score</text>
+    <text x="82" y="165" text-anchor="middle" class="text">owner</text>
+    <rect x="160" y="120" width="90" height="58" rx="6" class="mutable"/>
+    <text x="205" y="145" text-anchor="middle" class="text">&amp;mut</text>
+    <text x="205" y="165" text-anchor="middle" class="text">writer</text>
+    <text x="20" y="250" class="label">VALUE</text>
+    <rect x="70" y="270" width="130" height="52" rx="6" class="value"/>
+    <text x="135" y="301" text-anchor="middle" class="text">41</text>
+    <path d="M205 178 C205 220 170 230 160 267" class="arrow"/>
+    <text x="20" y="490" class="text">one exclusive access path</text>
+  </g>
+
+  <g transform="translate(600 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">3. mutate</text>
+    <text x="135" y="58" text-anchor="middle" class="text">*value += 1</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="125" height="58" rx="6" class="stack"/>
+    <text x="82" y="145" text-anchor="middle" class="text">score</text>
+    <text x="82" y="165" text-anchor="middle" class="text">temporarily lent</text>
+    <rect x="160" y="120" width="90" height="58" rx="6" class="mutable"/>
+    <text x="205" y="145" text-anchor="middle" class="text">&amp;mut</text>
+    <text x="205" y="165" text-anchor="middle" class="text">writes</text>
+    <text x="20" y="250" class="label">VALUE</text>
+    <rect x="70" y="270" width="130" height="52" rx="6" class="value"/>
+    <text x="135" y="301" text-anchor="middle" class="text">42</text>
+    <path d="M205 178 C205 220 170 230 160 267" class="arrow"/>
+    <text x="20" y="490" class="text">value changes in place</text>
+  </g>
+
+  <g transform="translate(890 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">4. borrow ends</text>
+    <text x="135" y="58" text-anchor="middle" class="text">println!("{score}")</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="230" height="58" rx="6" class="stack"/>
+    <text x="135" y="145" text-anchor="middle" class="text">score</text>
+    <text x="135" y="165" text-anchor="middle" class="text">42, owner again</text>
+    <rect x="20" y="195" width="230" height="42" rx="6" class="ended"/>
+    <text x="135" y="221" text-anchor="middle" class="text">&amp;mut ended</text>
+    <text x="20" y="290" class="label">VALUE</text>
+    <rect x="70" y="310" width="130" height="52" rx="6" class="value"/>
+    <text x="135" y="341" text-anchor="middle" class="text">42</text>
+    <text x="20" y="490" class="text">owner can use updated value</text>
+  </g>
+</svg>
