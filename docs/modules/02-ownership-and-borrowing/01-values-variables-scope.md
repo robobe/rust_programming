@@ -68,6 +68,27 @@ The important ownership lesson is that the variable still owns the complete
 `String`, including the heap data. When the variable leaves scope, Rust cleans
 up the allocation without a manual `free` call.
 
+The same rule applies to `Vec<T>`. A vector stores its elements in a heap
+allocation, while the `Vec` handle on the stack tracks the allocation. The
+variable owns both the handle and the elements it contains:
+
+```rust
+{
+    let mut numbers = vec![1, 2, 3];
+    numbers.push(4);
+    println!("numbers: {numbers:?}");
+} // numbers and its heap allocation are dropped here
+```
+
+Expected output:
+
+```text
+numbers: [1, 2, 3, 4]
+```
+
+The vector is automatically cleaned up when the block ends. No manual
+deallocation is needed.
+
 ## Complete runnable example
 
 The lesson displays the same source file that you can compile from the matching
@@ -189,6 +210,28 @@ outside: still in scope
 <label><input type="radio" name="scope-drop" value="a"> The value becomes global</label><br>
 <label><input type="radio" name="scope-drop" value="b"> Rust copies the value forever</label><br>
 <label><input type="radio" name="scope-drop" value="c"> Rust drops the value and releases its resources</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Checkpoint 3
+
+<div class="quiz" data-answer="b">
+<p>Where are the elements of a growing <code>Vec&lt;T&gt;</code> usually stored?</p>
+<label><input type="radio" name="vec-storage" value="a"> Only inside the source code</label><br>
+<label><input type="radio" name="vec-storage" value="b"> In a heap allocation owned by the vector</label><br>
+<label><input type="radio" name="vec-storage" value="c"> In a global variable shared by every vector</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Checkpoint 4
+
+<div class="quiz" data-answer="a">
+<p>What does <code>numbers.push(4)</code> do in the example?</p>
+<label><input type="radio" name="vec-push" value="a"> It adds <code>4</code> to the vector</label><br>
+<label><input type="radio" name="vec-push" value="b"> It transfers the vector to another owner</label><br>
+<label><input type="radio" name="vec-push" value="c"> It deletes the vector's existing elements</label><br>
 <button class="quiz-check">Check answer</button>
 <p class="quiz-result"></p>
 </div>

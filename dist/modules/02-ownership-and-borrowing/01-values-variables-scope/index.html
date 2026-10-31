@@ -783,6 +783,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#checkpoint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#next" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1035,6 +1057,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#checkpoint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#next" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1112,6 +1156,20 @@ and its text in a heap allocation.</p>
 <p>The important ownership lesson is that the variable still owns the complete
 <code>String</code>, including the heap data. When the variable leaves scope, Rust cleans
 up the allocation without a manual <code>free</code> call.</p>
+<p>The same rule applies to <code>Vec&lt;T&gt;</code>. A vector stores its elements in a heap
+allocation, while the <code>Vec</code> handle on the stack tracks the allocation. The
+variable owns both the handle and the elements it contains:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">];</span>
+<span class="w">    </span><span class="n">numbers</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"numbers: {numbers:?}"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// numbers and its heap allocation are dropped here</span>
+</code></pre></div>
+<p>Expected output:</p>
+<div class="highlight"><pre><span></span><code>numbers: [1, 2, 3, 4]
+</code></pre></div>
+<p>The vector is automatically cleaned up when the block ends. No manual
+deallocation is needed.</p>
 <h2 id="complete-runnable-example">Complete runnable example</h2>
 <p>The lesson displays the same source file that you can compile from the matching
 <code>examples/</code> directory. Keeping one source file prevents the lesson and demo
@@ -1296,6 +1354,26 @@ outside: still in scope
 <label><input type="radio" name="scope-drop" value="a"> The value becomes global</label><br>
 <label><input type="radio" name="scope-drop" value="b"> Rust copies the value forever</label><br>
 <label><input type="radio" name="scope-drop" value="c"> Rust drops the value and releases its resources</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="checkpoint-3">Checkpoint 3</h2>
+<div class="quiz" data-answer="b">
+<p>Where are the elements of a growing <code>Vec&lt;T&gt;</code> usually stored?</p>
+<label><input type="radio" name="vec-storage" value="a"> Only inside the source code</label><br>
+<label><input type="radio" name="vec-storage" value="b"> In a heap allocation owned by the vector</label><br>
+<label><input type="radio" name="vec-storage" value="c"> In a global variable shared by every vector</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="checkpoint-4">Checkpoint 4</h2>
+<div class="quiz" data-answer="a">
+<p>What does <code>numbers.push(4)</code> do in the example?</p>
+<label><input type="radio" name="vec-push" value="a"> It adds <code>4</code> to the vector</label><br>
+<label><input type="radio" name="vec-push" value="b"> It transfers the vector to another owner</label><br>
+<label><input type="radio" name="vec-push" value="c"> It deletes the vector's existing elements</label><br>
 <button class="quiz-check">Check answer</button>
 <p class="quiz-result"></p>
 </div>
