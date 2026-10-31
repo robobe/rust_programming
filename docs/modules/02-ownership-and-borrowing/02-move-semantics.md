@@ -39,6 +39,65 @@ value or free its allocation twice.
 The diagram is conceptual: it shows ownership and pointers, not literal
 addresses or the exact allocator representation.
 
+## Compiler errors are ownership feedback
+
+When the compiler reports `borrow of moved value`, read it as a short ownership
+history. It means:
+
+1. A value had an owner.
+2. An operation moved ownership somewhere else.
+3. Later code tried to use the old binding.
+
+Here is a deliberately tricky example. The `println!` looks harmless because
+it only reads `title`, but reading still requires the binding to be valid:
+
+```rust
+fn main() {
+    let title = String::from("Rust ownership");
+    let archived_title = title; // The String moves to `archived_title`.
+
+    println!("archived: {archived_title}");
+    println!("current: {title}"); // Error: `title` was moved above.
+}
+```
+
+The compiler rejects the whole program before it runs. This matters because a
+use-after-free would otherwise be a runtime memory-safety bug: the old binding
+could point at storage that another owner already released. Rejecting the code
+at compile time means every execution of the compiled program follows a valid
+ownership path, without adding a runtime ownership counter for ordinary
+`String` values.
+
+The diagnostic usually points to both sides of the story:
+
+```text
+error[E0382]: borrow of moved value: `title`
+  --> src/main.rs:6:29
+   |
+3  |     let archived_title = title;
+   |                          ----- value moved here
+...
+6  |     println!("current: {title}");
+   |                          ^^^^^ value borrowed here after move
+```
+
+The fix is to choose the intended ownership design. Use the new owner:
+
+```rust
+println!("current: {archived_title}");
+```
+
+Or make an explicit independent copy when both values must own their data:
+
+```rust
+let archived_title = title.clone();
+println!("current: {title}");
+println!("archived: {archived_title}");
+```
+
+`clone()` is an explicit heap-data copy, so it has a cost and communicates a
+different design from a cheap move of the `String` handle.
+
 ## Moving into and out of functions
 
 Passing an owned value to a function uses the same rule. The function becomes
@@ -98,7 +157,9 @@ returned: ownership returned
 1. Uncomment `println!("{first}");` after `let second = first`.
 2. Compile the program again.
 3. Find the line that says `borrow of moved value` or `use of moved value`.
-4. Restore the working version, then change `take_ownership` to return the
+4. In the diagnostic, identify the line marked `value moved here` and the line
+   marked `value borrowed here after move`.
+5. Restore the working version, then change `take_ownership` to return the
    `String` and assign the returned value back to a variable.
 
 The compiler error is telling you that the ownership story in the code is
@@ -147,6 +208,17 @@ or borrow it.
 <label><input type="radio" name="move-reason" value="a"> To make the old variable global</label><br>
 <label><input type="radio" name="move-reason" value="b"> To keep one owner responsible for cleanup</label><br>
 <label><input type="radio" name="move-reason" value="c"> To prevent all heap allocation</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Checkpoint 5
+
+<div class="quiz" data-answer="c" data-explanation="The message identifies the earlier move and the later use of the old binding, so it is ownership feedback rather than a runtime failure.">
+<p>What does <code>borrow of moved value: title</code> tell you?</p>
+<label><input type="radio" name="move-diagnostic" value="a"> The compiler detected a slow heap allocation while the program was running</label><br>
+<label><input type="radio" name="move-diagnostic" value="b"> <code>title</code> was copied twice and needs manual cleanup</label><br>
+<label><input type="radio" name="move-diagnostic" value="c"> <code>title</code> was moved earlier, then used again later</label><br>
 <button class="quiz-check">Check answer</button>
 <p class="quiz-result"></p>
 </div>
