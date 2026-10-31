@@ -23,6 +23,8 @@ Study [Values, variables, and scope](01-values-variables-scope.md) first.
 - Returning ownership from a function
 - Reading compiler errors as ownership feedback
 
+Continue with [Move semantics](02-move-semantics.md).
+
 ### 3. Copy and Clone
 
 - Which simple types implement `Copy`

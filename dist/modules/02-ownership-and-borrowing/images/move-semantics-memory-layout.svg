@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 650" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual memory layout for moving a Rust String</title>
+  <desc id="desc">Four panels show a String owned by first, ownership moved to second, ownership moved into a function, and the allocation dropped when the function ends.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .stack { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .heap { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .moved { fill: #fef3c7; stroke: #d97706; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .drop { fill: #f1f5f9; stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .arrow { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+    .drop-arrow { stroke: #dc2626; stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; marker-end: url(#drophead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+    <marker id="drophead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/></marker>
+  </defs>
+
+  <text x="590" y="30" text-anchor="middle" class="heading">A move transfers the owner, not the heap text</text>
+
+  <g transform="translate(20 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">1. before assignment</text>
+    <text x="135" y="58" text-anchor="middle" class="text">let first = String::from("hello")</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="230" height="58" rx="6" class="stack"/>
+    <text x="135" y="138" text-anchor="middle" class="text">first: ptr · len · cap</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="230" height="58" rx="6" class="heap"/>
+    <text x="135" y="280" text-anchor="middle" class="text">hello</text>
+    <path d="M135 173 C135 205 135 215 135 242" class="arrow"/>
+    <text x="20" y="490" class="text">owner: first</text>
+  </g>
+
+  <g transform="translate(310 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">2. after the move</text>
+    <text x="135" y="58" text-anchor="middle" class="text">let second = first</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="230" height="58" rx="6" class="stack"/>
+    <text x="135" y="138" text-anchor="middle" class="text">second: ptr · len · cap</text>
+    <rect x="20" y="185" width="230" height="42" rx="6" class="moved"/>
+    <text x="135" y="211" text-anchor="middle" class="text">first: moved, unusable</text>
+    <text x="20" y="280" class="label">HEAP</text>
+    <rect x="20" y="295" width="230" height="58" rx="6" class="heap"/>
+    <text x="135" y="330" text-anchor="middle" class="text">hello</text>
+    <path d="M135 173 C150 220 150 260 135 292" class="arrow"/>
+    <text x="20" y="490" class="text">owner: second</text>
+  </g>
+
+  <g transform="translate(600 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">3. function call</text>
+    <text x="135" y="58" text-anchor="middle" class="text">take_ownership(second)</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="230" height="58" rx="6" class="stack"/>
+    <text x="135" y="138" text-anchor="middle" class="text">text parameter</text>
+    <text x="135" y="158" text-anchor="middle" class="text">owns the handle</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="230" height="58" rx="6" class="heap"/>
+    <text x="135" y="280" text-anchor="middle" class="text">hello</text>
+    <path d="M135 173 C135 205 135 215 135 242" class="arrow"/>
+    <text x="20" y="490" class="text">owner: function parameter</text>
+  </g>
+
+  <g transform="translate(890 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">4. function ends</text>
+    <text x="135" y="58" text-anchor="middle" class="text">parameter leaves scope</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="230" height="58" rx="6" class="drop"/>
+    <text x="135" y="138" text-anchor="middle" class="text">text: out of scope</text>
+    <text x="135" y="158" text-anchor="middle" class="text">no owner remains</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="230" height="58" rx="6" class="drop"/>
+    <text x="135" y="280" text-anchor="middle" class="text">released by drop</text>
+    <path d="M135 173 C135 205 135 215 135 242" class="drop-arrow"/>
+    <text x="20" y="490" class="text">one cleanup, no double free</text>
+  </g>
+</svg>
