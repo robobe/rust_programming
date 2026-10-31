@@ -1,92 +1,137 @@
 # Module 2: Ownership and borrowing
 
-## By the end, you will be able to
+This module moves from the basic ownership rule to advanced lifetime and API
+design patterns. Learn the topics in order because each stage depends on the
+mental model built by the previous one.
 
-- Explain ownership in one sentence.
-- Borrow a value with a reference.
-- Recognize why Rust prevents a dangling reference.
+## Learning path
 
----
+### 1. Values, variables, and scope
 
-## The brief version
+- Stack values versus heap-backed values
+- Scope and when a value is dropped
+- The difference between a value and the variable that owns it
+- Why `String`, `Vec<T>`, and other heap-backed types matter
 
-Ownership is Rust's rule for deciding which variable is responsible for a
-value. Every value has one owner. When the owner leaves its scope, Rust cleans
-up the value automatically.
+### 2. Move semantics
 
-Borrowing means using a reference to a value without taking ownership. `&name`
-creates a shared borrow, so a function can read a value while the caller keeps
-owning it. Rust checks that references never outlive the value they refer to.
+- Assignment moves ownership for non-`Copy` types
+- Why using a moved value is a compile-time error
+- Passing ownership into a function
+- Returning ownership from a function
+- Reading compiler errors as ownership feedback
 
-```mermaid
-flowchart LR
-  O[Owner] -->|borrows with &| R[Reference]
-  R -->|reads temporarily| V[Value]
-  O -->|still owns| V
-```
+### 3. Copy and Clone
 
----
+- Which simple types implement `Copy`
+- Why `Copy` is different from an explicit `clone()`
+- The cost and intent of cloning heap-backed data
+- Designing types that should or should not be copied
 
-## Try it
+### 4. Shared borrowing
 
-```rust
-fn count_letters(text: &String) -> usize {
-    text.len()
-}
+- References with `&T`
+- Passing a reference without transferring ownership
+- Multiple shared references at the same time
+- Reference scope and the last use of a reference
+- Slices such as `&str` and `&[T]`
 
-fn main() {
-    let message = String::from("Rust");
-    println!("{} has {} letters", message, count_letters(&message));
-    println!("The owner can still use: {message}");
-}
-```
+Start with [Ownership and shared borrowing](ownership-and-borrowing.md).
 
-The function borrows `message`, so ownership stays in `main`. Compile and run
-the complete example from the repository root:
+### 5. Mutable borrowing
 
-```bash
-rustc examples/02-ownership-and-borrowing/main.rs -o /tmp/rust-ownership
-/tmp/rust-ownership
-```
+- Mutable references with `&mut T`
+- The one-mutable-reference rule
+- Why mutable and shared references cannot overlap
+- Reborrowing and short mutable-borrow scopes
+- Designing functions that mutate through references
 
-Expected output:
+### 6. Borrowing collections and iterators
 
-```text
-Rust has 4 letters
-The owner can still use: Rust
-```
+- Borrowing elements from `String`, `Vec<T>`, and maps
+- Iterating with `iter`, `iter_mut`, and `into_iter`
+- Avoiding mutation while an element is borrowed
+- Returning references into collections safely
 
-## Exercise
+### 7. Slices and API boundaries
 
-Change `count_letters` to accept `&str` instead of `&String`. The call in
-`main` still works, and the function can now accept both string literals and
-`String` values.
+- Prefer `&str` over `&String` in read-only APIs
+- Prefer slices such as `&[T]` over concrete collections where possible
+- Choosing owned values versus borrowed parameters
+- Using `AsRef`, `Borrow`, and generic bounds when they add real value
 
----
+### 8. Lifetimes: describing relationships
 
-## Checkpoint 1
+- Why a reference needs a valid lifetime
+- Lifetime annotations describe relationships, not durations
+- Shared lifetime parameters in functions
+- Returning a reference tied to an input
+- Why lifetimes do not make data live longer
 
-<div class="quiz" data-answer="b">
-<p>Who is responsible for cleaning up a value?</p>
-<label><input type="radio" name="ownership-owner" value="a"> Every reference</label><br>
-<label><input type="radio" name="ownership-owner" value="b"> The value's owner</label><br>
-<label><input type="radio" name="ownership-owner" value="c"> The compiler at random</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
+### 9. Structs that contain references
 
-## Checkpoint 2
+- Lifetime parameters on structs and enums
+- Borrowed views versus owned data
+- `'static` references and what they really mean
+- When a lifetime makes an API harder to use
+- Replacing a borrowed struct with an owned type when appropriate
 
-<div class="quiz" data-answer="a">
-<p>What does `&message` create?</p>
-<label><input type="radio" name="ownership-borrow" value="a"> A shared borrow</label><br>
-<label><input type="radio" name="ownership-borrow" value="b"> A second owner</label><br>
-<label><input type="radio" name="ownership-borrow" value="c"> A copy of the string</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
+### 10. Lifetime elision and method receivers
 
-## Next
+- The compiler's lifetime elision rules
+- Why common functions need no explicit annotations
+- Lifetimes in methods with `&self` and `&mut self`
+- When explicit annotations improve clarity
 
-Continue with mutable borrowing and the rule that a value may have either one
-mutable reference or many shared references at a time.
+### 11. Ownership in enums and error handling
+
+- Moving values into and out of `Option<T>` and `Result<T, E>`
+- Borrowing with `as_ref` and `as_mut`
+- Matching without moving unnecessarily
+- Ownership while propagating errors with `?`
+
+### 12. Smart pointers and shared ownership
+
+- `Box<T>` for heap allocation and recursive types
+- `Rc<T>` for shared ownership in single-threaded code
+- `Arc<T>` for shared ownership across threads
+- `RefCell<T>` for checked-at-runtime interior mutability
+- `Mutex<T>` and `RwLock<T>` for synchronized mutation
+
+### 13. Interior mutability and ownership design
+
+- When mutation through an immutable binding is useful
+- The difference between compile-time and runtime borrow checking
+- Avoiding `RefCell` borrow panics
+- Combining `Arc` with `Mutex` or `RwLock`
+- Choosing the simplest ownership model that fits the design
+
+### 14. Closures, iterators, and captured ownership
+
+- Closures borrowing from their environment
+- `move` closures and ownership transfer
+- `Fn`, `FnMut`, and `FnOnce`
+- Returning closures and captured data
+- Ownership through iterator adapters
+
+### 15. Advanced ownership patterns
+
+- Self-referential data and why it is difficult
+- Pinning and `Pin<T>`
+- Ownership across `async` tasks and `.await`
+- `Send` and `Sync` as thread-safety boundaries
+- FFI ownership and `unsafe` contracts
+- Designing zero-copy APIs without exposing fragile lifetimes
+
+## Recommended checkpoints
+
+At each stage, be able to answer these questions:
+
+1. Who owns this value right now?
+2. Is this operation moving, copying, cloning, or borrowing it?
+3. Can this reference outlive the value it points to?
+4. Would an owned value make this API simpler?
+
+The goal is not to add lifetime annotations everywhere. The goal is to make
+ownership explicit enough that the compiler and the API communicate the same
+design.

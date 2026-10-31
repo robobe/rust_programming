@@ -37,4 +37,6 @@ nav:
       - From source to DEB: modules/00-first-lesson/from-source-to-deb.md
       - Linux compiler output: modules/00-first-lesson/linux-compiler-output.md
       - Workspace with a binary and library: modules/00-first-lesson/cargo-workspace.md
-  - "Module 2: Ownership and borrowing": modules/02-ownership-and-borrowing/index.md
+  - "Module 2: Ownership and borrowing":
+      - Topic index: modules/02-ownership-and-borrowing/index.md
+      - Ownership and shared borrowing: modules/02-ownership-and-borrowing/ownership-and-borrowing.md
