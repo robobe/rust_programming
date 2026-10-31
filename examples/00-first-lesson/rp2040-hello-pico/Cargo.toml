@@ -1,0 +1,22 @@
+[package]
+name = "rp2040-hello-pico"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cortex-m-rt = "0.7"
+panic-halt = "1.0"
+rp-pico = "0.9"
+usb-device = "0.3"
+usbd-serial = "0.2"
+
+[profile.dev]
+debug = 2
+opt-level = 1
+panic = "abort"
+
+[profile.release]
+debug = 2
+lto = true
+opt-level = "z"
+panic = "abort"

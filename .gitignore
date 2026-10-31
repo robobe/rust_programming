@@ -2,5 +2,6 @@
 site/
 outputs/
 __pycache__/
+target/
 *.py[cod]
 .DS_Store
