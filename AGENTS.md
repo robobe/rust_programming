@@ -45,7 +45,10 @@ Use the existing `.quiz` radio-option pattern from `docs/javascripts/quiz.js`:
 each checkpoint must have plausible options, one correct answer, a unique radio
 `name`, a visible `Check answer` button, and a brief explanation through
 `data-explanation`. Do not use free-form review questions as the only knowledge
-check.
+check. Place a quiz beside the code example or explanation it tests, so the
+learner does not need to scroll between the question and its context. Do not
+put all code-specific quizzes in one summary block at the end. Reserve the end
+of the lesson for a broader quiz that checks generic understanding of the topic.
 
 After the learner clicks `Check answer` with the correct option selected,
 highlight that option with a soft green background and green border, then show

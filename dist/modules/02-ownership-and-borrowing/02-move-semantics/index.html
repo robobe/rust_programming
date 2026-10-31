@@ -662,6 +662,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#checkpoint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#compiler-errors-are-ownership-feedback" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -695,39 +706,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#complete-runnable-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Complete runnable example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exercise-read-the-compiler-message" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exercise: read the compiler message
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint 1
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#checkpoint-3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -743,6 +721,28 @@
     <span class="md-ellipsis">
       
         Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-read-the-compiler-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise: read the compiler message
       
     </span>
   </a>
@@ -864,6 +864,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#checkpoint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#compiler-errors-are-ownership-feedback" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -897,39 +908,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#complete-runnable-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Complete runnable example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exercise-read-the-compiler-message" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exercise: read the compiler message
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint 1
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#checkpoint-3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -945,6 +923,28 @@
     <span class="md-ellipsis">
       
         Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-read-the-compiler-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise: read the compiler message
       
     </span>
   </a>
@@ -1009,6 +1009,16 @@ binding is no longer usable.</p>
 <span class="kd">let</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first</span><span class="p">;</span><span class="w"> </span><span class="c1">// ownership moves from `first` to `second`</span>
 <span class="fm">println!</span><span class="p">(</span><span class="s">"{second}"</span><span class="p">);</span>
 </code></pre></div>
+<h2 id="checkpoint-1">Checkpoint 1</h2>
+<div class="quiz" data-answer="b" data-explanation="The destination becomes the unique owner, so the source binding is no longer usable.">
+<p>What happens to <code>first</code> after <code>let second = first</code> when the value is a <code>String</code>?</p>
+<label><input type="radio" name="move-source" value="a"> It owns a second copy of the heap text</label><br>
+<label><input type="radio" name="move-source" value="b"> It is moved from and cannot be used</label><br>
+<label><input type="radio" name="move-source" value="c"> It becomes a shared global variable</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
 <p>The text is not copied by this assignment. The <code>String</code> handle and its heap
 allocation now belong to <code>second</code>. The compiler rejects this because <code>first</code> is
 no longer an owner:</p>
@@ -1085,6 +1095,16 @@ leaves scope:</p>
 <span class="n">take_ownership</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
 <span class="c1">// `message` cannot be used here because ownership moved into the function.</span>
 </code></pre></div>
+<h2 id="checkpoint-3">Checkpoint 3</h2>
+<div class="quiz" data-answer="c" data-explanation="Passing a String by value transfers ownership to the parameter.">
+<p>What does <code>take_ownership(message)</code> do?</p>
+<label><input type="radio" name="move-function" value="a"> It always clones <code>message</code></label><br>
+<label><input type="radio" name="move-function" value="b"> It only borrows <code>message</code></label><br>
+<label><input type="radio" name="move-function" value="c"> It moves ownership into the function</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
 <p>If the caller needs the value afterward, the function can return ownership:</p>
 <div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">give_back</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">text</span>
@@ -1093,6 +1113,16 @@ leaves scope:</p>
 <span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">give_back</span><span class="p">(</span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"hello"</span><span class="p">));</span>
 <span class="fm">println!</span><span class="p">(</span><span class="s">"{message}"</span><span class="p">);</span>
 </code></pre></div>
+<h2 id="checkpoint-4">Checkpoint 4</h2>
+<div class="quiz" data-answer="a" data-explanation="Returning the String transfers ownership back to the caller under a new binding.">
+<p>Why can the caller use the result of <code>give_back</code>?</p>
+<label><input type="radio" name="move-return" value="a"> The function returns ownership to the caller</label><br>
+<label><input type="radio" name="move-return" value="b"> Rust makes every function parameter global</label><br>
+<label><input type="radio" name="move-return" value="c"> The heap allocation is never cleaned up</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
 <p>Returning ownership works, but borrowing is often a better fit when a function
 only needs temporary access. The next lessons build on this distinction.</p>
 <h2 id="complete-runnable-example">Complete runnable example</h2>
@@ -1144,36 +1174,6 @@ returned: ownership returned
 incomplete: decide whether the function should consume the value, return it,
 or borrow it.</p>
 <hr />
-<h2 id="checkpoint-1">Checkpoint 1</h2>
-<div class="quiz" data-answer="b" data-explanation="The destination becomes the unique owner, so the source binding is no longer usable.">
-<p>What happens to <code>first</code> after <code>let second = first</code> when the value is a <code>String</code>?</p>
-<label><input type="radio" name="move-source" value="a"> It owns a second copy of the heap text</label><br>
-<label><input type="radio" name="move-source" value="b"> It is moved from and cannot be used</label><br>
-<label><input type="radio" name="move-source" value="c"> It becomes a shared global variable</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-<h2 id="checkpoint-3">Checkpoint 3</h2>
-<div class="quiz" data-answer="c" data-explanation="Passing a String by value transfers ownership to the parameter.">
-<p>What does <code>take_ownership(message)</code> do?</p>
-<label><input type="radio" name="move-function" value="a"> It always clones <code>message</code></label><br>
-<label><input type="radio" name="move-function" value="b"> It only borrows <code>message</code></label><br>
-<label><input type="radio" name="move-function" value="c"> It moves ownership into the function</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-<h2 id="checkpoint-4">Checkpoint 4</h2>
-<div class="quiz" data-answer="a" data-explanation="Returning the String transfers ownership back to the caller under a new binding.">
-<p>Why can the caller use the result of <code>give_back</code>?</p>
-<label><input type="radio" name="move-return" value="a"> The function returns ownership to the caller</label><br>
-<label><input type="radio" name="move-return" value="b"> Rust makes every function parameter global</label><br>
-<label><input type="radio" name="move-return" value="c"> The heap allocation is never cleaned up</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
 <h2 id="checkpoint-5">Checkpoint 5</h2>
 <div class="quiz" data-answer="b" data-explanation="Moving the handle avoids copying the heap allocation and preserves one clear owner.">
 <p>Why does Rust move a <code>String</code> instead of silently copying it during assignment?</p>

@@ -23,6 +23,17 @@ let second = first; // ownership moves from `first` to `second`
 println!("{second}");
 ```
 
+## Checkpoint 1
+
+<div class="quiz" data-answer="b" data-explanation="The destination becomes the unique owner, so the source binding is no longer usable.">
+<p>What happens to <code>first</code> after <code>let second = first</code> when the value is a <code>String</code>?</p>
+<label><input type="radio" name="move-source" value="a"> It owns a second copy of the heap text</label><br>
+<label><input type="radio" name="move-source" value="b"> It is moved from and cannot be used</label><br>
+<label><input type="radio" name="move-source" value="c"> It becomes a shared global variable</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
 The text is not copied by this assignment. The `String` handle and its heap
 allocation now belong to `second`. The compiler rejects this because `first` is
 no longer an owner:
@@ -125,6 +136,17 @@ take_ownership(message);
 // `message` cannot be used here because ownership moved into the function.
 ```
 
+## Checkpoint 3
+
+<div class="quiz" data-answer="c" data-explanation="Passing a String by value transfers ownership to the parameter.">
+<p>What does <code>take_ownership(message)</code> do?</p>
+<label><input type="radio" name="move-function" value="a"> It always clones <code>message</code></label><br>
+<label><input type="radio" name="move-function" value="b"> It only borrows <code>message</code></label><br>
+<label><input type="radio" name="move-function" value="c"> It moves ownership into the function</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
 If the caller needs the value afterward, the function can return ownership:
 
 ```rust
@@ -135,6 +157,17 @@ fn give_back(text: String) -> String {
 let message = give_back(String::from("hello"));
 println!("{message}");
 ```
+
+## Checkpoint 4
+
+<div class="quiz" data-answer="a" data-explanation="Returning the String transfers ownership back to the caller under a new binding.">
+<p>Why can the caller use the result of <code>give_back</code>?</p>
+<label><input type="radio" name="move-return" value="a"> The function returns ownership to the caller</label><br>
+<label><input type="radio" name="move-return" value="b"> Rust makes every function parameter global</label><br>
+<label><input type="radio" name="move-return" value="c"> The heap allocation is never cleaned up</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
 
 Returning ownership works, but borrowing is often a better fit when a function
 only needs temporary access. The next lessons build on this distinction.
@@ -178,39 +211,6 @@ incomplete: decide whether the function should consume the value, return it,
 or borrow it.
 
 ---
-
-## Checkpoint 1
-
-<div class="quiz" data-answer="b" data-explanation="The destination becomes the unique owner, so the source binding is no longer usable.">
-<p>What happens to <code>first</code> after <code>let second = first</code> when the value is a <code>String</code>?</p>
-<label><input type="radio" name="move-source" value="a"> It owns a second copy of the heap text</label><br>
-<label><input type="radio" name="move-source" value="b"> It is moved from and cannot be used</label><br>
-<label><input type="radio" name="move-source" value="c"> It becomes a shared global variable</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-## Checkpoint 3
-
-<div class="quiz" data-answer="c" data-explanation="Passing a String by value transfers ownership to the parameter.">
-<p>What does <code>take_ownership(message)</code> do?</p>
-<label><input type="radio" name="move-function" value="a"> It always clones <code>message</code></label><br>
-<label><input type="radio" name="move-function" value="b"> It only borrows <code>message</code></label><br>
-<label><input type="radio" name="move-function" value="c"> It moves ownership into the function</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-## Checkpoint 4
-
-<div class="quiz" data-answer="a" data-explanation="Returning the String transfers ownership back to the caller under a new binding.">
-<p>Why can the caller use the result of <code>give_back</code>?</p>
-<label><input type="radio" name="move-return" value="a"> The function returns ownership to the caller</label><br>
-<label><input type="radio" name="move-return" value="b"> Rust makes every function parameter global</label><br>
-<label><input type="radio" name="move-return" value="c"> The heap allocation is never cleaned up</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
 
 ## Checkpoint 5
 
