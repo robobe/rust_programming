@@ -656,6 +656,89 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-after-each-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory after each step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory after each step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: create score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: create message
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-enter-the-inner-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: enter the inner scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-leave-the-inner-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: leave the inner scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-leave-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: leave main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#try-it" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -825,6 +908,89 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-after-each-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory after each step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory after each step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: create score
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: create message
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-enter-the-inner-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: enter the inner scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-leave-the-inner-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: leave the inner scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-leave-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: leave main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#try-it" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -946,6 +1112,155 @@ and its text in a heap allocation.</p>
 <p>The important ownership lesson is that the variable still owns the complete
 <code>String</code>, including the heap data. When the variable leaves scope, Rust cleans
 up the allocation without a manual <code>free</code> call.</p>
+<h2 id="complete-runnable-example">Complete runnable example</h2>
+<p>The lesson displays the same source file that you can compile from the matching
+<code>examples/</code> directory. Keeping one source file prevents the lesson and demo
+from drifting apart.</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust owns its data"</span><span class="p">);</span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"score: {score}"</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"message: {message}"</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">temporary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"temporary value"</span><span class="p">);</span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">"inside: {temporary}"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"outside: still in scope"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="memory-after-each-step">Memory after each step</h2>
+<p>The diagrams below are conceptual. They explain ownership and lifetime, not
+literal addresses, stack offsets, allocator metadata, or an exact compiler
+layout.</p>
+<p><img alt="Conceptual stack and heap layout across the program" src="../images/ownership-memory-layout.svg" /></p>
+<h3 id="step-1-create-score">Step 1: create <code>score</code></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack</td>
+<td><code>score</code> owns the integer value <code>42</code>.</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>No allocation is needed for this integer.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td><code>score</code> is valid until the end of <code>main</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-2-create-message">Step 2: create <code>message</code></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust owns its data"</span><span class="p">);</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack</td>
+<td><code>message</code> owns a <code>String</code> handle containing a pointer, length, and capacity.</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>The string characters are stored in an allocation owned by <code>message</code>.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td><code>message</code> is valid until the end of <code>main</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-3-enter-the-inner-scope">Step 3: enter the inner scope</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">temporary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"temporary value"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack</td>
+<td><code>score</code>, <code>message</code>, and <code>temporary</code> are valid in the inner block.</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>There are separate allocations for <code>message</code> and <code>temporary</code>.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td><code>temporary</code> is valid only inside the inner block.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-4-leave-the-inner-scope">Step 4: leave the inner scope</h3>
+<p>When the closing brace runs, <code>temporary</code> leaves scope first:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack</td>
+<td>The <code>temporary</code> binding is gone. <code>score</code> and <code>message</code> remain.</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>The allocation owned by <code>temporary</code> is released. <code>message</code> remains allocated.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Code after the block can still use <code>score</code> and <code>message</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="step-5-leave-main">Step 5: leave <code>main</code></h3>
+<p>At the end of <code>main</code>, Rust drops the remaining owners automatically:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stack</td>
+<td><code>score</code> and the <code>message</code> handle leave scope.</td>
+</tr>
+<tr>
+<td>Heap</td>
+<td>The allocation owned by <code>message</code> is released.</td>
+</tr>
+<tr>
+<td>Result</td>
+<td>No manual <code>free</code> call is needed.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="try-it">Try it</h2>
 <p>The demo creates a stack integer, a heap-backed <code>String</code>, and an inner scope.</p>
 <div class="highlight"><pre><span></span><code>rustc<span class="w"> </span>examples/02-ownership-and-borrowing/01-values-variables-scope/main.rs<span class="w"> </span><span class="se">\</span>

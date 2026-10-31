@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual Rust stack and heap layout across five steps</title>
+  <desc id="desc">Five panels show score on the stack, message pointing to heap text, a temporary value in an inner scope, temporary being dropped, and message being dropped at the end of main.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .stack { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .heap { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .dropped { fill: #f1f5f9; stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .arrow { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+    .drop-arrow { stroke: #dc2626; stroke-width: 2.5; fill: none; stroke-dasharray: 7 5; marker-end: url(#drophead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="drophead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="30" text-anchor="middle" class="heading">Conceptual memory states, not literal addresses</text>
+
+  <g transform="translate(20 55)">
+    <rect width="220" height="650" rx="10" class="panel"/>
+    <text x="110" y="32" text-anchor="middle" class="heading">1. score</text>
+    <text x="110" y="58" text-anchor="middle" class="text">let score = 42</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="180" height="58" rx="6" class="stack"/>
+    <text x="110" y="140" text-anchor="middle" class="text">score</text>
+    <text x="110" y="160" text-anchor="middle" class="text">42</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <text x="20" y="260" class="text">empty</text>
+    <text x="20" y="610" class="text">owner: score</text>
+  </g>
+
+  <g transform="translate(260 55)">
+    <rect width="220" height="650" rx="10" class="panel"/>
+    <text x="110" y="32" text-anchor="middle" class="heading">2. message</text>
+    <text x="110" y="58" text-anchor="middle" class="text">String allocation</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="180" height="58" rx="6" class="stack"/>
+    <text x="110" y="138" text-anchor="middle" class="text">message</text>
+    <text x="110" y="158" text-anchor="middle" class="text">ptr · len · cap</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="180" height="58" rx="6" class="heap"/>
+    <text x="110" y="280" text-anchor="middle" class="text">Rust owns its data</text>
+    <path d="M110 173 C110 205 110 215 110 242" class="arrow"/>
+    <text x="20" y="610" class="text">owner: message</text>
+  </g>
+
+  <g transform="translate(500 55)">
+    <rect width="220" height="650" rx="10" class="panel"/>
+    <text x="110" y="32" text-anchor="middle" class="heading">3. inner scope</text>
+    <text x="110" y="58" text-anchor="middle" class="text">temporary is created</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="180" height="58" rx="6" class="stack"/>
+    <text x="110" y="138" text-anchor="middle" class="text">score, message</text>
+    <text x="110" y="158" text-anchor="middle" class="text">temporary handle</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="180" height="48" rx="6" class="heap"/>
+    <text x="110" y="275" text-anchor="middle" class="text">message text</text>
+    <rect x="20" y="310" width="180" height="48" rx="6" class="heap"/>
+    <text x="110" y="340" text-anchor="middle" class="text">temporary value</text>
+    <path d="M110 173 C110 210 110 225 110 242" class="arrow"/>
+    <path d="M110 173 C150 220 150 270 110 307" class="arrow"/>
+    <text x="20" y="610" class="text">inner owner: temporary</text>
+  </g>
+
+  <g transform="translate(740 55)">
+    <rect width="220" height="650" rx="10" class="panel"/>
+    <text x="110" y="32" text-anchor="middle" class="heading">4. block ends</text>
+    <text x="110" y="58" text-anchor="middle" class="text">temporary is dropped</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="180" height="58" rx="6" class="stack"/>
+    <text x="110" y="138" text-anchor="middle" class="text">score, message</text>
+    <text x="110" y="158" text-anchor="middle" class="text">temporary gone</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="180" height="48" rx="6" class="heap"/>
+    <text x="110" y="275" text-anchor="middle" class="text">message text</text>
+    <rect x="20" y="310" width="180" height="48" rx="6" class="dropped"/>
+    <text x="110" y="340" text-anchor="middle" class="text">released</text>
+    <path d="M110 173 C150 220 150 270 110 307" class="drop-arrow"/>
+    <text x="20" y="610" class="text">message remains valid</text>
+  </g>
+
+  <g transform="translate(980 55)">
+    <rect width="200" height="650" rx="10" class="panel"/>
+    <text x="100" y="32" text-anchor="middle" class="heading">5. main ends</text>
+    <text x="100" y="58" text-anchor="middle" class="text">message is dropped</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="115" width="160" height="58" rx="6" class="dropped"/>
+    <text x="100" y="138" text-anchor="middle" class="text">score, message</text>
+    <text x="100" y="158" text-anchor="middle" class="text">out of scope</text>
+    <text x="20" y="230" class="label">HEAP</text>
+    <rect x="20" y="245" width="160" height="48" rx="6" class="dropped"/>
+    <text x="100" y="275" text-anchor="middle" class="text">released</text>
+    <path d="M100 173 C100 210 100 225 100 242" class="drop-arrow"/>
+    <text x="20" y="610" class="text">no manual free()</text>
+  </g>
+</svg>

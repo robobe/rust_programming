@@ -68,6 +68,82 @@ The important ownership lesson is that the variable still owns the complete
 `String`, including the heap data. When the variable leaves scope, Rust cleans
 up the allocation without a manual `free` call.
 
+## Complete runnable example
+
+The lesson displays the same source file that you can compile from the matching
+`examples/` directory. Keeping one source file prevents the lesson and demo
+from drifting apart.
+
+```rust
+--8<-- "examples/02-ownership-and-borrowing/01-values-variables-scope/main.rs"
+```
+
+## Memory after each step
+
+The diagrams below are conceptual. They explain ownership and lifetime, not
+literal addresses, stack offsets, allocator metadata, or an exact compiler
+layout.
+
+![Conceptual stack and heap layout across the program](images/ownership-memory-layout.svg)
+
+### Step 1: create `score`
+
+```rust
+let score = 42;
+```
+
+| Area | State |
+| --- | --- |
+| Stack | `score` owns the integer value `42`. |
+| Heap | No allocation is needed for this integer. |
+| Scope | `score` is valid until the end of `main`. |
+
+### Step 2: create `message`
+
+```rust
+let message = String::from("Rust owns its data");
+```
+
+| Area | State |
+| --- | --- |
+| Stack | `message` owns a `String` handle containing a pointer, length, and capacity. |
+| Heap | The string characters are stored in an allocation owned by `message`. |
+| Scope | `message` is valid until the end of `main`. |
+
+### Step 3: enter the inner scope
+
+```rust
+{
+    let temporary = String::from("temporary value");
+}
+```
+
+| Area | State |
+| --- | --- |
+| Stack | `score`, `message`, and `temporary` are valid in the inner block. |
+| Heap | There are separate allocations for `message` and `temporary`. |
+| Scope | `temporary` is valid only inside the inner block. |
+
+### Step 4: leave the inner scope
+
+When the closing brace runs, `temporary` leaves scope first:
+
+| Area | State |
+| --- | --- |
+| Stack | The `temporary` binding is gone. `score` and `message` remain. |
+| Heap | The allocation owned by `temporary` is released. `message` remains allocated. |
+| Scope | Code after the block can still use `score` and `message`. |
+
+### Step 5: leave `main`
+
+At the end of `main`, Rust drops the remaining owners automatically:
+
+| Area | State |
+| --- | --- |
+| Stack | `score` and the `message` handle leave scope. |
+| Heap | The allocation owned by `message` is released. |
+| Result | No manual `free` call is needed. |
+
 ## Try it
 
 The demo creates a stack integer, a heap-backed `String`, and an inner scope.
