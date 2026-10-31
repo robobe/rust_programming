@@ -77,45 +77,72 @@ use usbd_serial::SerialPort;
 
 #[entry]
 fn main() -> ! {
-    let mut pac = pac::Peripherals::take().unwrap();
-    let mut watchdog = hal::Watchdog::new(pac.WATCHDOG);
+    let mut peripherals = pac::Peripherals::take().unwrap();
+    let mut watchdog = hal::Watchdog::new(peripherals.WATCHDOG);
     let clocks = hal::clocks::init_clocks_and_plls(
         rp_pico::XOSC_CRYSTAL_FREQ,
-        pac.XOSC,
-        pac.CLOCKS,
-        pac.PLL_SYS,
-        pac.PLL_USB,
-        &mut pac.RESETS,
+        peripherals.XOSC,
+        peripherals.CLOCKS,
+        peripherals.PLL_SYS,
+        peripherals.PLL_USB,
+        &mut peripherals.RESETS,
         &mut watchdog,
     )
     .ok()
     .unwrap();
+
     let usb_bus = UsbBusAllocator::new(hal::usb::UsbBus::new(
-        pac.USBCTRL_REGS,
-        pac.USBCTRL_DPRAM,
+        peripherals.USBCTRL_REGS,
+        peripherals.USBCTRL_DPRAM,
         clocks.usb_clock,
         true,
-        &mut pac.RESETS,
+        &mut peripherals.RESETS,
     ));
+
     let mut serial = SerialPort::new(&usb_bus);
     let mut usb_device = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x16c0, 0x27dd))
-        .strings(&[StringDescriptors::default()
-            .manufacturer("Rust course")
-            .product("Hello Pico")
-            .serial_number("PICO")])
+        .strings(&[StringDescriptors::default().product("Hello Pico")])
         .unwrap()
-        .device_class(2)
         .build();
 
     loop {
         if usb_device.poll(&mut [&mut serial]) {
-            let _ = serial.write(b"Hello, Pico!\r\n");
+            let _ = serial.write(b"Hello from Pico!\r\n");
         }
     }
 }
 ```
 
-The complete compilable version is in the demo directory.
+The same code is in the demo's `src/main.rs`.
+
+## Project structure
+
+```text
+rp2040-hello-pico/
+├── .cargo/
+│   └── config.toml
+├── src/
+│   └── main.rs
+├── Cargo.toml
+├── Cargo.lock
+├── build.rs
+├── memory.x
+└── target/
+```
+
+| File or directory | Role |
+| --- | --- |
+| `Cargo.toml` | Names the firmware package, declares Rust dependencies, and sets debug/release profiles. |
+| `Cargo.lock` | Records the exact dependency versions used for a reproducible build. |
+| `.cargo/config.toml` | Selects `thumbv6m-none-eabi`, linker flags, and the flash runner. |
+| `src/main.rs` | Contains the `no_std` firmware entry point and USB serial loop. |
+| `build.rs` | Copies `memory.x` into the linker search path before compilation. |
+| `memory.x` | Defines the RP2040 flash, boot2, and RAM addresses for the linker. |
+| `target/` | Generated compiler output. It is not source code and should not be committed. |
+
+The `rp-pico` dependency supplies the board support package, `usb-device`
+supplies the USB device framework, `usbd-serial` supplies the CDC serial class,
+and `panic-halt` stops the CPU if an unrecoverable panic occurs.
 
 ## Build the firmware
 
