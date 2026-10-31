@@ -3,14 +3,16 @@
 This is a bare-metal Rust application for the Raspberry Pi Pico with an
 RP2040. It prints `Hello from Pico!` through a USB CDC serial port.
 
+The package name is `pico_hellp`, matching the working demo.
+
 ## Project files
 
-- `Cargo.toml` — package metadata, dependencies, and build profiles
+- `Cargo.toml` — package metadata and dependencies
 - `Cargo.lock` — locked dependency versions
 - `.cargo/config.toml` — RP2040 target, linker flags, and flash runner
 - `src/main.rs` — USB serial firmware
-- `build.rs` — makes `memory.x` available to the linker
 - `memory.x` — RP2040 flash and RAM layout
+- `.gitignore` — keeps generated `target/` files out of version control
 - `target/` — generated build output, never source code
 
 Install the host tools:

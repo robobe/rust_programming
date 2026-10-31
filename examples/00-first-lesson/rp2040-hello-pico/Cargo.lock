@@ -294,6 +294,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 
 [[package]]
+name = "pico_hellp"
+version = "0.1.0"
+dependencies = [
+ "cortex-m-rt",
+ "panic-halt",
+ "rp-pico",
+ "usb-device",
+ "usbd-serial",
+]
+
+[[package]]
 name = "pio"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -395,17 +406,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "rp2040-hello-pico"
-version = "0.1.0"
-dependencies = [
- "cortex-m-rt",
- "panic-halt",
- "rp-pico",
- "usb-device",
- "usbd-serial",
 ]
 
 [[package]]

@@ -983,8 +983,8 @@ compiler is not required.</p>
 <span class="w">    </span><span class="s2">"-C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"link-arg=-Tlink.x"</span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
-<p><code>memory.x</code> describes the Pico's flash and RAM layout. <code>build.rs</code> copies it to
-the linker search path so <code>cortex-m-rt</code> can use it reliably.</p>
+<p><code>memory.x</code> describes the Pico's flash and RAM layout. Keeping it beside
+<code>Cargo.toml</code> lets the linker use the board's memory map directly.</p>
 <h2 id="usb-hello-pico-application">USB Hello Pico application</h2>
 <p>The application is <code>#![no_std]</code> and <code>#![no_main]</code>. It initializes the RP2040
 clocks, creates a USB CDC serial class, and writes a greeting while polling USB.</p>
@@ -1042,8 +1042,8 @@ clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 │   └── main.rs
 ├── Cargo.toml
 ├── Cargo.lock
-├── build.rs
 ├── memory.x
+├── .gitignore
 └── target/
 </code></pre></div>
 <table>
@@ -1056,7 +1056,7 @@ clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 <tbody>
 <tr>
 <td><code>Cargo.toml</code></td>
-<td>Names the firmware package, declares Rust dependencies, and sets debug/release profiles.</td>
+<td>Names the firmware package and declares Rust dependencies.</td>
 </tr>
 <tr>
 <td><code>Cargo.lock</code></td>
@@ -1071,12 +1071,12 @@ clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 <td>Contains the <code>no_std</code> firmware entry point and USB serial loop.</td>
 </tr>
 <tr>
-<td><code>build.rs</code></td>
-<td>Copies <code>memory.x</code> into the linker search path before compilation.</td>
-</tr>
-<tr>
 <td><code>memory.x</code></td>
 <td>Defines the RP2040 flash, boot2, and RAM addresses for the linker.</td>
+</tr>
+<tr>
+<td><code>.gitignore</code></td>
+<td>Keeps generated <code>target/</code> files out of version control.</td>
 </tr>
 <tr>
 <td><code>target/</code></td>
@@ -1084,7 +1084,8 @@ clocks, creates a USB CDC serial class, and writes a greeting while polling USB.
 </tr>
 </tbody>
 </table>
-<p>The <code>rp-pico</code> dependency supplies the board support package, <code>usb-device</code>
+<p>The package is named <code>pico_hellp</code> to match the working demo. The <code>rp-pico</code>
+dependency supplies the board support package, <code>usb-device</code>
 supplies the USB device framework, <code>usbd-serial</code> supplies the CDC serial class,
 and <code>panic-halt</code> stops the CPU if an unrecoverable panic occurs.</p>
 <h2 id="build-the-firmware">Build the firmware</h2>
@@ -1095,7 +1096,7 @@ cargo<span class="w"> </span>check
 cargo<span class="w"> </span>build<span class="w"> </span>--release
 </code></pre></div>
 <p>The final ELF is written under:</p>
-<div class="highlight"><pre><span></span><code>target/thumbv6m-none-eabi/release/rp2040-hello-pico
+<div class="highlight"><pre><span></span><code>target/thumbv6m-none-eabi/release/pico_hellp
 </code></pre></div>
 <h2 id="flash-over-usb-bootloader">Flash over USB bootloader</h2>
 <ol>
@@ -1108,7 +1109,7 @@ cargo<span class="w"> </span>build<span class="w"> </span>--release
 </code></pre></div>
 <p>The configured <code>elf2uf2-rs -d</code> runner converts and copies the firmware. You can
 also create a UF2 file without flashing it:</p>
-<div class="highlight"><pre><span></span><code>elf2uf2-rs<span class="w"> </span>target/thumbv6m-none-eabi/release/rp2040-hello-pico<span class="w"> </span>hello-pico.uf2
+<div class="highlight"><pre><span></span><code>elf2uf2-rs<span class="w"> </span>target/thumbv6m-none-eabi/release/pico_hellp<span class="w"> </span>hello-pico.uf2
 </code></pre></div>
 <p>Copy <code>hello-pico.uf2</code> to the mounted <code>RPI-RP2</code> drive, then wait for the Pico to
 reboot.</p>

@@ -58,8 +58,8 @@ rustflags = [
 ]
 ```
 
-`memory.x` describes the Pico's flash and RAM layout. `build.rs` copies it to
-the linker search path so `cortex-m-rt` can use it reliably.
+`memory.x` describes the Pico's flash and RAM layout. Keeping it beside
+`Cargo.toml` lets the linker use the board's memory map directly.
 
 ## USB Hello Pico application
 
@@ -125,22 +125,23 @@ rp2040-hello-pico/
 │   └── main.rs
 ├── Cargo.toml
 ├── Cargo.lock
-├── build.rs
 ├── memory.x
+├── .gitignore
 └── target/
 ```
 
 | File or directory | Role |
 | --- | --- |
-| `Cargo.toml` | Names the firmware package, declares Rust dependencies, and sets debug/release profiles. |
+| `Cargo.toml` | Names the firmware package and declares Rust dependencies. |
 | `Cargo.lock` | Records the exact dependency versions used for a reproducible build. |
 | `.cargo/config.toml` | Selects `thumbv6m-none-eabi`, linker flags, and the flash runner. |
 | `src/main.rs` | Contains the `no_std` firmware entry point and USB serial loop. |
-| `build.rs` | Copies `memory.x` into the linker search path before compilation. |
 | `memory.x` | Defines the RP2040 flash, boot2, and RAM addresses for the linker. |
+| `.gitignore` | Keeps generated `target/` files out of version control. |
 | `target/` | Generated compiler output. It is not source code and should not be committed. |
 
-The `rp-pico` dependency supplies the board support package, `usb-device`
+The package is named `pico_hellp` to match the working demo. The `rp-pico`
+dependency supplies the board support package, `usb-device`
 supplies the USB device framework, `usbd-serial` supplies the CDC serial class,
 and `panic-halt` stops the CPU if an unrecoverable panic occurs.
 
@@ -158,7 +159,7 @@ cargo build --release
 The final ELF is written under:
 
 ```text
-target/thumbv6m-none-eabi/release/rp2040-hello-pico
+target/thumbv6m-none-eabi/release/pico_hellp
 ```
 
 ## Flash over USB bootloader
@@ -176,7 +177,7 @@ The configured `elf2uf2-rs -d` runner converts and copies the firmware. You can
 also create a UF2 file without flashing it:
 
 ```bash
-elf2uf2-rs target/thumbv6m-none-eabi/release/rp2040-hello-pico hello-pico.uf2
+elf2uf2-rs target/thumbv6m-none-eabi/release/pico_hellp hello-pico.uf2
 ```
 
 Copy `hello-pico.uf2` to the mounted `RPI-RP2` drive, then wait for the Pico to
