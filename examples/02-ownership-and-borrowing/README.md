@@ -1,4 +1,4 @@
-# Ownership and borrowing example
+# Shared borrowing example
 
 From the repository root, run:
 
@@ -15,4 +15,4 @@ The owner can still use: Rust
 ```
 
 Prerequisite: the stable Rust toolchain. The example demonstrates a shared
-borrow and does not yet cover mutable references.
+borrow with `&str`; mutable references are covered in the next topic.

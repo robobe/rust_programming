@@ -23,7 +23,7 @@
     
     
       
-        <title>Ownership and shared borrowing - Rust Programming: From Zero to Useful</title>
+        <title>Shared borrowing - Rust Programming: From Zero to Useful</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ownership-and-shared-borrowing" class="md-skip">
+        <a href="#shared-borrowing" class="md-skip">
           Skip to content
         </a>
       
@@ -103,7 +103,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ownership and shared borrowing
+              Shared borrowing
             
           </span>
         </div>
@@ -650,7 +650,7 @@
   <span class="md-ellipsis">
     
   
-    Ownership and shared borrowing
+    Shared borrowing
   
 
     
@@ -668,7 +668,7 @@
   <span class="md-ellipsis">
     
   
-    Ownership and shared borrowing
+    Shared borrowing
   
 
     
@@ -705,32 +705,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-brief-version" class="md-nav__link">
+  <a href="#borrow-without-becoming-the-owner" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The brief version
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#try-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Try it
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exercise" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exercise
+        Borrow without becoming the owner
       
     </span>
   </a>
@@ -749,10 +727,98 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#prefer-str-for-read-only-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prefer &amp;str for read-only text
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#checkpoint-2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Checkpoint 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-shared-borrows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple shared borrows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-lifetime-and-dangling-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference lifetime and dangling prevention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 5
       
     </span>
   </a>
@@ -824,32 +890,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-brief-version" class="md-nav__link">
+  <a href="#borrow-without-becoming-the-owner" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The brief version
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#try-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Try it
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exercise" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exercise
+        Borrow without becoming the owner
       
     </span>
   </a>
@@ -868,10 +912,98 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#prefer-str-for-read-only-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prefer &amp;str for read-only text
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#checkpoint-2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Checkpoint 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-shared-borrows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple shared borrows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-lifetime-and-dangling-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference lifetime and dangling prevention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 5
       
     </span>
   </a>
@@ -906,39 +1038,141 @@
 
 
 
-<h1 id="ownership-and-shared-borrowing">Ownership and shared borrowing</h1>
+<h1 id="shared-borrowing">Shared borrowing</h1>
 <h2 id="by-the-end-you-will-be-able-to">By the end, you will be able to</h2>
 <ul>
-<li>Explain ownership in one sentence.</li>
-<li>Borrow a value with a reference.</li>
-<li>Recognize why Rust prevents a dangling reference.</li>
+<li>Explain how a reference gives temporary access without transferring ownership.</li>
+<li>Use <code>&amp;T</code> and <code>&amp;str</code> for read-only function parameters.</li>
+<li>Use multiple shared references at the same time.</li>
+<li>Explain why Rust rejects a reference that could outlive its owner.</li>
 </ul>
 <hr />
-<h2 id="the-brief-version">The brief version</h2>
-<p>Ownership is Rust's rule for deciding which variable is responsible for a
-value. Every value has one owner. When the owner leaves its scope, Rust cleans
-up the value automatically.</p>
-<p>Borrowing means using a reference to a value without taking ownership. <code>&amp;name</code>
-creates a shared borrow, so a function can read a value while the caller keeps
-owning it. Rust checks that references never outlive the value they refer to.</p>
-<pre class="mermaid"><code>flowchart LR
-  O[Owner] --&gt;|borrows with &amp;| R[Reference]
-  R --&gt;|reads temporarily| V[Value]
-  O --&gt;|still owns| V</code></pre>
-<hr />
-<h2 id="try-it">Try it</h2>
-<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="p">{</span>
+<h2 id="borrow-without-becoming-the-owner">Borrow without becoming the owner</h2>
+<p>Ownership answers “who cleans this value up?” Borrowing answers “who may use it
+right now?” A shared borrow, written <code>&amp;value</code>, gives read-only access without
+creating another owner. The original variable still owns the value:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">len</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust"</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count_letters</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">);</span><span class="w"> </span><span class="c1">// Borrow, do not move.</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{message} has {count} letters"</span><span class="p">);</span>
+</code></pre></div>
+<p>The function receives a reference to the string slice, not the <code>String</code> itself.
+When the function returns, the borrow ends and <code>message</code> remains available to
+its owner.</p>
+<p><img alt="Conceptual memory layout for shared borrowing" src="../images/shared-borrowing-memory-layout.svg" /></p>
+<p>The diagram is conceptual. A reference is shown as a view into owned data, not
+as a second owner or a literal memory address.</p>
+<h2 id="checkpoint-1">Checkpoint 1</h2>
+<div class="quiz" data-answer="b" data-explanation="A shared reference provides access without transferring cleanup responsibility from the owner.">
+<p>What does <code>&message</code> create?</p>
+<label><input type="radio" name="borrow-reference" value="a"> A second owner of the String</label><br>
+<label><input type="radio" name="borrow-reference" value="b"> A shared reference to the String</label><br>
+<label><input type="radio" name="borrow-reference" value="c"> A deep copy of the String</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="prefer-str-for-read-only-text">Prefer <code>&amp;str</code> for read-only text</h2>
+<p>The first version could accept <code>&amp;String</code>, but <code>&amp;str</code> is usually a more flexible
+API. A <code>String</code> can be viewed as a string slice, and a string literal is already
+a string slice:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">len</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">owned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust"</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">literal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"language"</span><span class="p">;</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">count_letters</span><span class="p">(</span><span class="o">&amp;</span><span class="n">owned</span><span class="p">));</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">count_letters</span><span class="p">(</span><span class="n">literal</span><span class="p">));</span>
+</code></pre></div>
+<p>The function only needs to read text, so it asks for the smallest useful view
+instead of requiring one concrete owning type.</p>
+<h2 id="checkpoint-2">Checkpoint 2</h2>
+<div class="quiz" data-answer="c" data-explanation="&str accepts a borrowed view of both a String and a string literal, so the API is more flexible.">
+<p>Why is <code>&str</code> a good parameter for a read-only text function?</p>
+<label><input type="radio" name="borrow-str" value="a"> It takes ownership of every String</label><br>
+<label><input type="radio" name="borrow-str" value="b"> It forces callers to allocate a new String</label><br>
+<label><input type="radio" name="borrow-str" value="c"> It accepts borrowed text from String values and literals</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="multiple-shared-borrows">Multiple shared borrows</h2>
+<p>Because shared references cannot modify the value, Rust can safely allow more
+than one of them at the same time. This is useful when several functions need
+to inspect the same data:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">first_character</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">chars</span><span class="p">().</span><span class="n">next</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">text_length</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">len</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust"</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_character</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text_length</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">);</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"first: {first:?}, length: {length}"</span><span class="p">);</span>
+</code></pre></div>
+<p>Both calls borrow <code>message</code>; neither call becomes its owner. Shared borrows are
+read-only, so they do not conflict with each other.</p>
+<h2 id="checkpoint-3">Checkpoint 3</h2>
+<div class="quiz" data-answer="a" data-explanation="Many shared references are allowed together because they cannot mutate the borrowed value.">
+<p>Why can two functions share <code>&message</code> at the same time?</p>
+<label><input type="radio" name="borrow-many" value="a"> Shared references are read-only</label><br>
+<label><input type="radio" name="borrow-many" value="b"> Each reference becomes the owner</label><br>
+<label><input type="radio" name="borrow-many" value="c"> Rust copies the entire String for every reference</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="reference-lifetime-and-dangling-prevention">Reference lifetime and dangling prevention</h2>
+<p>A reference must never outlive the value it points to. Rust checks this before
+the program runs, so a function cannot return a reference to a local value that
+will be dropped when the function ends:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This does not compile:</span>
+<span class="c1">// fn invalid_reference() -&gt; &amp;String {</span>
+<span class="c1">//     let local = String::from("temporary");</span>
+<span class="c1">//     &amp;local // `local` is dropped before the caller could use the reference.</span>
+<span class="c1">// }</span>
+</code></pre></div>
+<p>The safe design is to return ownership:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">make_text</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"owned result"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Or, when returning a reference, tie it to data owned by the caller. The
+compiler's rejection prevents a dangling reference from reaching runtime.</p>
+<h2 id="checkpoint-4">Checkpoint 4</h2>
+<div class="quiz" data-answer="b" data-explanation="The local String is dropped when the function ends, so returning a reference to it would create a dangling reference.">
+<p>Why does <code>invalid_reference</code> fail to compile?</p>
+<label><input type="radio" name="borrow-dangle" value="a"> References always need to be mutable</label><br>
+<label><input type="radio" name="borrow-dangle" value="b"> The referenced local value would be dropped before the caller used it</label><br>
+<label><input type="radio" name="borrow-dangle" value="c"> Returning a String is never allowed</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="complete-runnable-example">Complete runnable example</h2>
+<p>The lesson displays the same source file used by the matching demo:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">count_letters</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// A shared borrow lets this function read without taking ownership.</span>
 <span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">len</span><span class="p">()</span>
 <span class="p">}</span>
 
 <span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust"</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// `&amp;message` creates a temporary shared reference to the String.</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{} has {} letters"</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">count_letters</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// Ownership stayed in `main`, so the owner can use the String again.</span>
 <span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"The owner can still use: {message}"</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The function borrows <code>message</code>, so ownership stays in <code>main</code>. Compile and run
-the complete example from the repository root:</p>
+<p>Run it from the repository root:</p>
 <div class="highlight"><pre><span></span><code>rustc<span class="w"> </span>examples/02-ownership-and-borrowing/main.rs<span class="w"> </span>-o<span class="w"> </span>/tmp/rust-ownership
 /tmp/rust-ownership
 </code></pre></div>
@@ -947,33 +1181,26 @@ the complete example from the repository root:</p>
 The owner can still use: Rust
 </code></pre></div>
 <h2 id="exercise">Exercise</h2>
-<p>Change <code>count_letters</code> to accept <code>&amp;str</code> instead of <code>&amp;String</code>. The call in
-<code>main</code> still works, and the function can now accept both string literals and
-<code>String</code> values.</p>
+<ol>
+<li>Change <code>count_letters</code> to accept <code>&amp;String</code>, then explain why the <code>&amp;str</code>
+   version accepts more kinds of text.</li>
+<li>Add a second shared-borrowing function that prints the first character.</li>
+<li>Uncomment <code>invalid_reference</code>, compile it, and read the lifetime error.</li>
+</ol>
 <hr />
-<h2 id="checkpoint-1">Checkpoint 1</h2>
-<div class="quiz" data-answer="b">
-<p>Who is responsible for cleaning up a value?</p>
-<label><input type="radio" name="ownership-owner" value="a"> Every reference</label><br>
-<label><input type="radio" name="ownership-owner" value="b"> The value's owner</label><br>
-<label><input type="radio" name="ownership-owner" value="c"> The compiler at random</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-<h2 id="checkpoint-2">Checkpoint 2</h2>
-<div class="quiz" data-answer="a">
-<p>What does `&message` create?</p>
-<label><input type="radio" name="ownership-borrow" value="a"> A shared borrow</label><br>
-<label><input type="radio" name="ownership-borrow" value="b"> A second owner</label><br>
-<label><input type="radio" name="ownership-borrow" value="c"> A copy of the string</label><br>
+<h2 id="checkpoint-5">Checkpoint 5</h2>
+<div class="quiz" data-answer="c" data-explanation="Shared borrowing gives temporary read-only access while the original owner keeps cleanup responsibility and the compiler checks the reference lifetime.">
+<p>Which statement best summarizes shared borrowing?</p>
+<label><input type="radio" name="borrow-summary" value="a"> It permanently transfers ownership to every reader</label><br>
+<label><input type="radio" name="borrow-summary" value="b"> It copies the owned value before every function call</label><br>
+<label><input type="radio" name="borrow-summary" value="c"> It gives temporary read-only access while the owner remains responsible for the value</label><br>
 <button class="quiz-check">Check answer</button>
 <p class="quiz-result"></p>
 </div>
 
 <h2 id="next">Next</h2>
-<p>Continue with mutable borrowing and the rule that a value may have either one
-mutable reference or many shared references at a time.</p>
+<p>Continue with <a href="../#5-mutable-borrowing">mutable borrowing</a> to learn how
+<code>&amp;mut T</code> allows controlled changes through a reference.</p>
 
 
 

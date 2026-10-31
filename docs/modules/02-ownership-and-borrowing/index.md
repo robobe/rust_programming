@@ -42,7 +42,7 @@ Continue with [Copy and Clone](03-copy-and-clone.md).
 - Reference scope and the last use of a reference
 - Slices such as `&str` and `&[T]`
 
-Start with [Ownership and shared borrowing](ownership-and-borrowing.md).
+Continue with [Shared borrowing](ownership-and-borrowing.md).
 
 ### 5. Mutable borrowing
 

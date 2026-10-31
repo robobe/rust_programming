@@ -43,4 +43,4 @@ nav:
       - Values, variables, and scope: modules/02-ownership-and-borrowing/01-values-variables-scope.md
       - Move semantics: modules/02-ownership-and-borrowing/02-move-semantics.md
       - Copy and Clone: modules/02-ownership-and-borrowing/03-copy-and-clone.md
-      - Ownership and shared borrowing: modules/02-ownership-and-borrowing/ownership-and-borrowing.md
+      - Shared borrowing: modules/02-ownership-and-borrowing/ownership-and-borrowing.md

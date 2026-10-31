@@ -1,48 +1,162 @@
-# Ownership and shared borrowing
+# Shared borrowing
 
 ## By the end, you will be able to
 
-- Explain ownership in one sentence.
-- Borrow a value with a reference.
-- Recognize why Rust prevents a dangling reference.
+- Explain how a reference gives temporary access without transferring ownership.
+- Use `&T` and `&str` for read-only function parameters.
+- Use multiple shared references at the same time.
+- Explain why Rust rejects a reference that could outlive its owner.
 
 ---
 
-## The brief version
+## Borrow without becoming the owner
 
-Ownership is Rust's rule for deciding which variable is responsible for a
-value. Every value has one owner. When the owner leaves its scope, Rust cleans
-up the value automatically.
-
-Borrowing means using a reference to a value without taking ownership. `&name`
-creates a shared borrow, so a function can read a value while the caller keeps
-owning it. Rust checks that references never outlive the value they refer to.
-
-```mermaid
-flowchart LR
-  O[Owner] -->|borrows with &| R[Reference]
-  R -->|reads temporarily| V[Value]
-  O -->|still owns| V
-```
-
----
-
-## Try it
+Ownership answers “who cleans this value up?” Borrowing answers “who may use it
+right now?” A shared borrow, written `&value`, gives read-only access without
+creating another owner. The original variable still owns the value:
 
 ```rust
-fn count_letters(text: &String) -> usize {
+fn count_letters(text: &str) -> usize {
     text.len()
 }
 
-fn main() {
-    let message = String::from("Rust");
-    println!("{} has {} letters", message, count_letters(&message));
-    println!("The owner can still use: {message}");
+let message = String::from("Rust");
+let count = count_letters(&message); // Borrow, do not move.
+println!("{message} has {count} letters");
+```
+
+The function receives a reference to the string slice, not the `String` itself.
+When the function returns, the borrow ends and `message` remains available to
+its owner.
+
+![Conceptual memory layout for shared borrowing](images/shared-borrowing-memory-layout.svg)
+
+The diagram is conceptual. A reference is shown as a view into owned data, not
+as a second owner or a literal memory address.
+
+## Checkpoint 1
+
+<div class="quiz" data-answer="b" data-explanation="A shared reference provides access without transferring cleanup responsibility from the owner.">
+<p>What does <code>&message</code> create?</p>
+<label><input type="radio" name="borrow-reference" value="a"> A second owner of the String</label><br>
+<label><input type="radio" name="borrow-reference" value="b"> A shared reference to the String</label><br>
+<label><input type="radio" name="borrow-reference" value="c"> A deep copy of the String</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Prefer `&str` for read-only text
+
+The first version could accept `&String`, but `&str` is usually a more flexible
+API. A `String` can be viewed as a string slice, and a string literal is already
+a string slice:
+
+```rust
+fn count_letters(text: &str) -> usize {
+    text.len()
+}
+
+let owned = String::from("Rust");
+let literal = "language";
+
+println!("{}", count_letters(&owned));
+println!("{}", count_letters(literal));
+```
+
+The function only needs to read text, so it asks for the smallest useful view
+instead of requiring one concrete owning type.
+
+## Checkpoint 2
+
+<div class="quiz" data-answer="c" data-explanation="&str accepts a borrowed view of both a String and a string literal, so the API is more flexible.">
+<p>Why is <code>&str</code> a good parameter for a read-only text function?</p>
+<label><input type="radio" name="borrow-str" value="a"> It takes ownership of every String</label><br>
+<label><input type="radio" name="borrow-str" value="b"> It forces callers to allocate a new String</label><br>
+<label><input type="radio" name="borrow-str" value="c"> It accepts borrowed text from String values and literals</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Multiple shared borrows
+
+Because shared references cannot modify the value, Rust can safely allow more
+than one of them at the same time. This is useful when several functions need
+to inspect the same data:
+
+```rust
+fn first_character(text: &str) -> Option<char> {
+    text.chars().next()
+}
+
+fn text_length(text: &str) -> usize {
+    text.len()
+}
+
+let message = String::from("Rust");
+let first = first_character(&message);
+let length = text_length(&message);
+println!("first: {first:?}, length: {length}");
+```
+
+Both calls borrow `message`; neither call becomes its owner. Shared borrows are
+read-only, so they do not conflict with each other.
+
+## Checkpoint 3
+
+<div class="quiz" data-answer="a" data-explanation="Many shared references are allowed together because they cannot mutate the borrowed value.">
+<p>Why can two functions share <code>&message</code> at the same time?</p>
+<label><input type="radio" name="borrow-many" value="a"> Shared references are read-only</label><br>
+<label><input type="radio" name="borrow-many" value="b"> Each reference becomes the owner</label><br>
+<label><input type="radio" name="borrow-many" value="c"> Rust copies the entire String for every reference</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Reference lifetime and dangling prevention
+
+A reference must never outlive the value it points to. Rust checks this before
+the program runs, so a function cannot return a reference to a local value that
+will be dropped when the function ends:
+
+```rust
+// This does not compile:
+// fn invalid_reference() -> &String {
+//     let local = String::from("temporary");
+//     &local // `local` is dropped before the caller could use the reference.
+// }
+```
+
+The safe design is to return ownership:
+
+```rust
+fn make_text() -> String {
+    String::from("owned result")
 }
 ```
 
-The function borrows `message`, so ownership stays in `main`. Compile and run
-the complete example from the repository root:
+Or, when returning a reference, tie it to data owned by the caller. The
+compiler's rejection prevents a dangling reference from reaching runtime.
+
+## Checkpoint 4
+
+<div class="quiz" data-answer="b" data-explanation="The local String is dropped when the function ends, so returning a reference to it would create a dangling reference.">
+<p>Why does <code>invalid_reference</code> fail to compile?</p>
+<label><input type="radio" name="borrow-dangle" value="a"> References always need to be mutable</label><br>
+<label><input type="radio" name="borrow-dangle" value="b"> The referenced local value would be dropped before the caller used it</label><br>
+<label><input type="radio" name="borrow-dangle" value="c"> Returning a String is never allowed</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+## Complete runnable example
+
+The lesson displays the same source file used by the matching demo:
+
+```rust
+--8<-- "examples/02-ownership-and-borrowing/main.rs"
+```
+
+Run it from the repository root:
 
 ```bash
 rustc examples/02-ownership-and-borrowing/main.rs -o /tmp/rust-ownership
@@ -58,35 +172,25 @@ The owner can still use: Rust
 
 ## Exercise
 
-Change `count_letters` to accept `&str` instead of `&String`. The call in
-`main` still works, and the function can now accept both string literals and
-`String` values.
+1. Change `count_letters` to accept `&String`, then explain why the `&str`
+   version accepts more kinds of text.
+2. Add a second shared-borrowing function that prints the first character.
+3. Uncomment `invalid_reference`, compile it, and read the lifetime error.
 
 ---
 
-## Checkpoint 1
+## Checkpoint 5
 
-<div class="quiz" data-answer="b">
-<p>Who is responsible for cleaning up a value?</p>
-<label><input type="radio" name="ownership-owner" value="a"> Every reference</label><br>
-<label><input type="radio" name="ownership-owner" value="b"> The value's owner</label><br>
-<label><input type="radio" name="ownership-owner" value="c"> The compiler at random</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-## Checkpoint 2
-
-<div class="quiz" data-answer="a">
-<p>What does `&message` create?</p>
-<label><input type="radio" name="ownership-borrow" value="a"> A shared borrow</label><br>
-<label><input type="radio" name="ownership-borrow" value="b"> A second owner</label><br>
-<label><input type="radio" name="ownership-borrow" value="c"> A copy of the string</label><br>
+<div class="quiz" data-answer="c" data-explanation="Shared borrowing gives temporary read-only access while the original owner keeps cleanup responsibility and the compiler checks the reference lifetime.">
+<p>Which statement best summarizes shared borrowing?</p>
+<label><input type="radio" name="borrow-summary" value="a"> It permanently transfers ownership to every reader</label><br>
+<label><input type="radio" name="borrow-summary" value="b"> It copies the owned value before every function call</label><br>
+<label><input type="radio" name="borrow-summary" value="c"> It gives temporary read-only access while the owner remains responsible for the value</label><br>
 <button class="quiz-check">Check answer</button>
 <p class="quiz-result"></p>
 </div>
 
 ## Next
 
-Continue with mutable borrowing and the rule that a value may have either one
-mutable reference or many shared references at a time.
+Continue with [mutable borrowing](index.md#5-mutable-borrowing) to learn how
+`&mut T` allows controlled changes through a reference.

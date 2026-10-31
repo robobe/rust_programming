@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 650" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual memory layout for shared borrowing</title>
+  <desc id="desc">Three panels show a String owner, one shared reference, and two shared references reading the same heap data while ownership remains with the original variable.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .stack { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .heap { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .borrow { fill: #f3e8ff; stroke: #7c3aed; stroke-width: 1.5; }
+    .arrow { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <text x="590" y="30" text-anchor="middle" class="heading">References view data, the owner still controls cleanup</text>
+
+  <g transform="translate(20 55)">
+    <rect width="350" height="550" rx="10" class="panel"/>
+    <text x="175" y="32" text-anchor="middle" class="heading">1. owner only</text>
+    <text x="175" y="58" text-anchor="middle" class="text">let message = String::from("Rust")</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="60" y="120" width="230" height="58" rx="6" class="stack"/>
+    <text x="175" y="145" text-anchor="middle" class="text">message: ptr · len · cap</text>
+    <text x="175" y="165" text-anchor="middle" class="text">owner</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="60" y="270" width="230" height="58" rx="6" class="heap"/>
+    <text x="175" y="305" text-anchor="middle" class="text">Rust</text>
+    <path d="M175 178 C175 220 175 230 175 267" class="arrow"/>
+    <text x="20" y="490" class="text">message cleans up the data</text>
+  </g>
+
+  <g transform="translate(415 55)">
+    <rect width="350" height="550" rx="10" class="panel"/>
+    <text x="175" y="32" text-anchor="middle" class="heading">2. one shared borrow</text>
+    <text x="175" y="58" text-anchor="middle" class="text">count_letters(&amp;message)</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="150" height="58" rx="6" class="stack"/>
+    <text x="95" y="145" text-anchor="middle" class="text">message</text>
+    <text x="95" y="165" text-anchor="middle" class="text">owner</text>
+    <rect x="200" y="120" width="130" height="58" rx="6" class="borrow"/>
+    <text x="265" y="145" text-anchor="middle" class="text">&amp;message</text>
+    <text x="265" y="165" text-anchor="middle" class="text">read-only view</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="60" y="270" width="230" height="58" rx="6" class="heap"/>
+    <text x="175" y="305" text-anchor="middle" class="text">Rust</text>
+    <path d="M95 178 C95 220 125 230 150 267" class="arrow"/>
+    <path d="M265 178 C265 220 225 230 200 267" class="arrow"/>
+    <text x="20" y="490" class="text">borrow ends after the call</text>
+  </g>
+
+  <g transform="translate(810 55)">
+    <rect width="350" height="550" rx="10" class="panel"/>
+    <text x="175" y="32" text-anchor="middle" class="heading">3. two shared borrows</text>
+    <text x="175" y="58" text-anchor="middle" class="text">inspect the same message</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="130" height="58" rx="6" class="borrow"/>
+    <text x="85" y="145" text-anchor="middle" class="text">&amp;message</text>
+    <text x="85" y="165" text-anchor="middle" class="text">reader A</text>
+    <rect x="200" y="120" width="130" height="58" rx="6" class="borrow"/>
+    <text x="265" y="145" text-anchor="middle" class="text">&amp;message</text>
+    <text x="265" y="165" text-anchor="middle" class="text">reader B</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="60" y="270" width="230" height="58" rx="6" class="heap"/>
+    <text x="175" y="305" text-anchor="middle" class="text">Rust, one owned allocation</text>
+    <path d="M85 178 C85 220 135 230 155 267" class="arrow"/>
+    <path d="M265 178 C265 220 215 230 195 267" class="arrow"/>
+    <text x="20" y="490" class="text">readers cannot mutate the data</text>
+  </g>
+</svg>
