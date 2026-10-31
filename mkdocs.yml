@@ -39,4 +39,5 @@ nav:
       - Workspace with a binary and library: modules/00-first-lesson/cargo-workspace.md
   - "Module 2: Ownership and borrowing":
       - Topic index: modules/02-ownership-and-borrowing/index.md
+      - Values, variables, and scope: modules/02-ownership-and-borrowing/01-values-variables-scope.md
       - Ownership and shared borrowing: modules/02-ownership-and-borrowing/ownership-and-borrowing.md

@@ -13,6 +13,8 @@ mental model built by the previous one.
 - The difference between a value and the variable that owns it
 - Why `String`, `Vec<T>`, and other heap-backed types matter
 
+Study [Values, variables, and scope](01-values-variables-scope.md) first.
+
 ### 2. Move semantics
 
 - Assignment moves ownership for non-`Copy` types
