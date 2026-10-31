@@ -656,6 +656,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-heap-backed-types-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why heap-backed types matter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#complete-runnable-example" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -930,6 +941,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-heap-backed-types-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why heap-backed types matter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#complete-runnable-example" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1170,6 +1192,32 @@ variable owns both the handle and the elements it contains:</p>
 </code></pre></div>
 <p>The vector is automatically cleaned up when the block ends. No manual
 deallocation is needed.</p>
+<h2 id="why-heap-backed-types-matter">Why heap-backed types matter</h2>
+<p>Real programs often need data whose size is known only while the program is
+running: user input, a file, a network response, or a collection of records.
+<code>String</code>, <code>Vec&lt;T&gt;</code>, and similar types keep that changing data on the heap while
+their small ownership handle stays on the stack.</p>
+<p>That extra allocation is useful because the data can grow, but it also creates
+resources that must have one clear owner. Rust's ownership rules make sure the
+allocation is released exactly once and cannot be used after its owner has
+gone away. Borrowing then lets another function temporarily read or modify the
+data without taking ownership:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">add_label</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">labels</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"Rust"</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"safe"</span><span class="p">)];</span>
+<span class="w">    </span><span class="n">add_label</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">labels</span><span class="p">);</span><span class="w"> </span><span class="c1">// borrowed temporarily, then returned to `labels`</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{labels:?}"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// `labels` owns the vector and its strings until cleanup</span>
+</code></pre></div>
+<p>Expected output:</p>
+<div class="highlight"><pre><span></span><code>["safe", "Rust"]
+</code></pre></div>
+<p>This is why heap-backed types are central to ownership and borrowing: they let
+Rust support flexible, useful data structures without requiring manual
+<code>free</code>, while still making the lifetime and access rules explicit.</p>
 <h2 id="complete-runnable-example">Complete runnable example</h2>
 <p>The lesson displays the same source file that you can compile from the matching
 <code>examples/</code> directory. Keeping one source file prevents the lesson and demo
