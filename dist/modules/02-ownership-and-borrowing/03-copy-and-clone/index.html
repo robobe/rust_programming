@@ -1,0 +1,1271 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A practical, beginner-friendly path for learning Rust">
+      
+      
+      
+      
+        <link rel="prev" href="../02-move-semantics/">
+      
+      
+        <link rel="next" href="../ownership-and-borrowing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/rust-mark.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Copy and Clone - Rust Programming: From Zero to Useful</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/quiz.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/mermaid.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#copy-and-clone" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Rust Programming: From Zero to Useful" class="md-header__button md-logo" aria-label="Rust Programming: From Zero to Useful" data-md-component="logo">
+      
+  <img src="../../../assets/rust-mark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rust Programming: From Zero to Useful
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Copy and Clone
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Rust Programming: From Zero to Useful" class="md-nav__button md-logo" aria-label="Rust Programming: From Zero to Useful" data-md-component="logo">
+      
+  <img src="../../../assets/rust-mark.svg" alt="logo">
+
+    </a>
+    Rust Programming: From Zero to Useful
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../syllabus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syllabus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 0
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 0
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup and Hello World
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/from-source-to-deb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    From source to DEB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/linux-compiler-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux compiler output
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/cargo-workspace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace with a binary and library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/rp2040-cross-compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-compile for Raspberry Pi Pico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2: Ownership and borrowing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2: Ownership and borrowing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-values-variables-scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Values, variables, and scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-move-semantics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Move semantics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Copy and Clone
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Copy and Clone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#by-the-end-you-will-be-able-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        By the end, you will be able to
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copy-small-values-can-have-two-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy: small values can have two bindings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-an-explicit-duplicate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone: an explicit duplicate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-for-structs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone for structs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-the-operation-that-expresses-intent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose the operation that expresses intent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 5
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ownership-and-borrowing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ownership and shared borrowing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#by-the-end-you-will-be-able-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        By the end, you will be able to
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copy-small-values-can-have-two-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy: small values can have two bindings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-an-explicit-duplicate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone: an explicit duplicate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clone-for-structs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone for structs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-the-operation-that-expresses-intent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose the operation that expresses intent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete runnable example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkpoint-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 5
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="copy-and-clone">Copy and Clone</h1>
+<h2 id="by-the-end-you-will-be-able-to">By the end, you will be able to</h2>
+<ul>
+<li>Explain why simple values such as integers can be copied automatically.</li>
+<li>Distinguish an implicit <code>Copy</code> from an explicit <code>clone()</code>.</li>
+<li>Recognize that cloning heap-backed data can allocate and copy data.</li>
+<li>Use <code>#[derive(Clone)]</code> when a type has a meaningful duplication operation.</li>
+</ul>
+<hr />
+<h2 id="copy-small-values-can-have-two-bindings"><code>Copy</code>: small values can have two bindings</h2>
+<p>Some types have a simple, fixed-size representation and no resource that needs
+special cleanup. These types can implement <code>Copy</code>. Assignment copies the value,
+so both bindings remain valid:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3_</span><span class="k">u8</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">backup_attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attempts</span><span class="p">;</span><span class="w"> </span><span class="c1">// The number is copied.</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{attempts}"</span><span class="p">);</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{backup_attempts}"</span><span class="p">);</span>
+</code></pre></div>
+<p>The compiler knows that copying a <code>u8</code> does not create two owners of the same
+heap allocation. Common <code>Copy</code> types include integers, floating-point values,
+booleans, characters, and tuples made only from <code>Copy</code> types.</p>
+<h2 id="checkpoint-1">Checkpoint 1</h2>
+<div class="quiz" data-answer="a" data-explanation="A u8 implements Copy, so assignment creates another usable value instead of moving ownership.">
+<p>Why can the code use both <code>attempts</code> and <code>backup_attempts</code>?</p>
+<label><input type="radio" name="copy-integer" value="a"> <code>u8</code> implements <code>Copy</code></label><br>
+<label><input type="radio" name="copy-integer" value="b"> Rust stores every integer on the heap</label><br>
+<label><input type="radio" name="copy-integer" value="c"> The first variable was automatically cloned with a heap allocation</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="clone-an-explicit-duplicate"><code>Clone</code>: an explicit duplicate</h2>
+<p><code>String</code> does not implement <code>Copy</code> because copying its handle would duplicate
+the ownership of one heap allocation. It does implement <code>Clone</code>, which makes a
+separate copy when you ask for one:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"primary"</span><span class="p">);</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">duplicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">original</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"> </span><span class="c1">// Explicitly copy the heap text.</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">"original: {original}"</span><span class="p">);</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"duplicate: {duplicate}"</span><span class="p">);</span>
+</code></pre></div>
+<p>After <code>clone()</code>, each <code>String</code> owns a different heap allocation. The operation
+can be more expensive than a move because it copies the characters and may
+allocate memory. That explicit cost is useful: the code shows that two owners
+are intentional.</p>
+<p><img alt="Conceptual memory layout comparing Copy, Clone, and Move" src="../images/copy-clone-memory-layout.svg" /></p>
+<p>The diagram is conceptual. It shows ownership relationships, not literal
+addresses or the exact internal representation of a Rust value.</p>
+<h2 id="checkpoint-2">Checkpoint 2</h2>
+<div class="quiz" data-answer="b" data-explanation="clone() explicitly creates an independent String allocation, so both variables can own their text.">
+<p>What does <code>original.clone()</code> provide for a <code>String</code>?</p>
+<label><input type="radio" name="clone-string" value="a"> A second binding to the same allocation without another owner rule</label><br>
+<label><input type="radio" name="clone-string" value="b"> A separate owned copy of the string data</label><br>
+<label><input type="radio" name="clone-string" value="c"> A shared reference that lives forever</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="clone-for-structs">Clone for structs</h2>
+<p>A type can derive <code>Clone</code> when each of its fields can be cloned. The generated
+implementation clones each field, so the <code>String</code> field gets its own heap copy:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Clone, Debug)]</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Settings</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">retries</span><span class="p">:</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Settings</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">retries</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"demo"</span><span class="p">),</span>
+<span class="p">};</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">settings_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settings</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+</code></pre></div>
+<p>The <code>u8</code> field is cheap to copy, while the <code>String</code> field performs a heap-data
+clone. Deriving <code>Clone</code> is convenient, but it should still match the meaning of
+duplicating the type in the program.</p>
+<h2 id="checkpoint-3">Checkpoint 3</h2>
+<div class="quiz" data-answer="c" data-explanation="A derived Clone implementation clones each field, including the String field's heap data.">
+<p>What happens when <code>settings.clone()</code> is called?</p>
+<label><input type="radio" name="clone-struct" value="a"> The original settings value is destroyed</label><br>
+<label><input type="radio" name="clone-struct" value="b"> Only the retries field is copied</label><br>
+<label><input type="radio" name="clone-struct" value="c"> A new Settings value is created with cloned fields</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="choose-the-operation-that-expresses-intent">Choose the operation that expresses intent</h2>
+<p>Use a move when one owner should continue with the value. Use <code>Copy</code> when a
+small value naturally has independent duplicates. Use <code>clone()</code> when two
+owners need independent heap-backed data and the copy cost is acceptable. If a
+function only needs temporary access, borrowing is often better than either a
+move or a clone.</p>
+<h2 id="checkpoint-4">Checkpoint 4</h2>
+<div class="quiz" data-answer="b" data-explanation="Cloning a String is explicit because it may allocate and copy heap data; a move only transfers ownership.">
+<p>Why is <code>clone()</code> explicit for a heap-backed type?</p>
+<label><input type="radio" name="clone-cost" value="a"> Rust cannot move heap-backed values</label><br>
+<label><input type="radio" name="clone-cost" value="b"> It may allocate and copy data, so the cost should be visible</label><br>
+<label><input type="radio" name="clone-cost" value="c"> It prevents the original value from being dropped</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="complete-runnable-example">Complete runnable example</h2>
+<p>The lesson displays the same source file used by the matching demo:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Clone, Debug)]</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Settings</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">retries</span><span class="p">:</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">backup_attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attempts</span><span class="p">;</span><span class="w"> </span><span class="c1">// `u8` is Copy, so both bindings stay usable.</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"attempts: {attempts}, backup: {backup_attempts}"</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"primary"</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">duplicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">original</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"> </span><span class="c1">// Explicitly copy the heap text.</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"original: {original}, duplicate: {duplicate}"</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Settings</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">retries</span><span class="p">:</span><span class="w"> </span><span class="nc">attempts</span><span class="p">,</span>
+<span class="w">        </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">::</span><span class="n">from</span><span class="p">(</span><span class="s">"demo"</span><span class="p">),</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">settings_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">settings</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"> </span><span class="c1">// Derive Clone deep-copies its fields.</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"settings: {settings:?}"</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"settings copy: {settings_copy:?}"</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"fields: retries={}, label={}"</span><span class="p">,</span><span class="w"> </span><span class="n">settings</span><span class="p">.</span><span class="n">retries</span><span class="p">,</span><span class="w"> </span><span class="n">settings</span><span class="p">.</span><span class="n">label</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Run it from the repository root:</p>
+<div class="highlight"><pre><span></span><code>rustc<span class="w"> </span>examples/02-ownership-and-borrowing/03-copy-and-clone/main.rs<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>/tmp/rust-copy-clone
+/tmp/rust-copy-clone
+</code></pre></div>
+<p>Expected output:</p>
+<div class="highlight"><pre><span></span><code>attempts: 3, backup: 3
+original: primary, duplicate: primary
+settings: Settings { retries: 3, label: "demo" }
+settings copy: Settings { retries: 3, label: "demo" }
+fields: retries=3, label=demo
+</code></pre></div>
+<h2 id="exercise">Exercise</h2>
+<ol>
+<li>Remove <code>Clone</code> from the <code>Settings</code> derive and compile the demo. Read the
+   compiler error from <code>settings.clone()</code>.</li>
+<li>Replace <code>original.clone()</code> with <code>let duplicate = original;</code>. Observe which
+   binding becomes unusable.</li>
+<li>Add a <code>bool</code> field to <code>Settings</code> and clone it again.</li>
+</ol>
+<hr />
+<h2 id="checkpoint-5">Checkpoint 5</h2>
+<div class="quiz" data-answer="c" data-explanation="The choice depends on intent: Copy for cheap independent values, clone() for an explicit independent heap copy, and move for transferring the single owner.">
+<p>Which statement best summarizes the difference between move, Copy, and Clone?</p>
+<label><input type="radio" name="copy-clone-summary" value="a"> All three operations make identical heap allocations</label><br>
+<label><input type="radio" name="copy-clone-summary" value="b"> Move and Clone are implicit, while Copy must always be called as a method</label><br>
+<label><input type="radio" name="copy-clone-summary" value="c"> Move transfers ownership, Copy duplicates simple values implicitly, and Clone explicitly duplicates a value</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
+<h2 id="next">Next</h2>
+<p>Continue with <a href="../#4-shared-borrowing">shared borrowing</a> to let functions
+read a value without taking ownership or allocating a clone.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/quiz.js"></script>
+      
+        <script src="../../../javascripts/mermaid.mjs" type="module"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -32,6 +32,8 @@ Continue with [Move semantics](02-move-semantics.md).
 - The cost and intent of cloning heap-backed data
 - Designing types that should or should not be copied
 
+Continue with [Copy and Clone](03-copy-and-clone.md).
+
 ### 4. Shared borrowing
 
 - References with `&T`

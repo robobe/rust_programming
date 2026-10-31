@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 650" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual memory layout comparing Copy, Clone, and Move</title>
+  <desc id="desc">Three panels show a copied integer with two independent stack values, a cloned String with two heap allocations, and a moved String with one heap allocation and one active owner.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .stack { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .heap { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .moved { fill: #fef3c7; stroke: #d97706; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .arrow { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+  </defs>
+
+  <text x="590" y="30" text-anchor="middle" class="heading">Copy duplicates a value, Clone duplicates owned data, Move transfers ownership</text>
+
+  <g transform="translate(20 55)">
+    <rect width="350" height="550" rx="10" class="panel"/>
+    <text x="175" y="32" text-anchor="middle" class="heading">Copy: u8</text>
+    <text x="175" y="58" text-anchor="middle" class="text">let backup = attempts</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="140" height="58" rx="6" class="stack"/>
+    <text x="90" y="145" text-anchor="middle" class="text">attempts</text>
+    <text x="90" y="165" text-anchor="middle" class="text">3</text>
+    <rect x="190" y="120" width="140" height="58" rx="6" class="stack"/>
+    <text x="260" y="145" text-anchor="middle" class="text">backup</text>
+    <text x="260" y="165" text-anchor="middle" class="text">3</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <text x="20" y="280" class="text">none needed</text>
+    <text x="20" y="490" class="text">both bindings stay valid</text>
+  </g>
+
+  <g transform="translate(415 55)">
+    <rect width="350" height="550" rx="10" class="panel"/>
+    <text x="175" y="32" text-anchor="middle" class="heading">Clone: String</text>
+    <text x="175" y="58" text-anchor="middle" class="text">let duplicate = original.clone()</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="140" height="58" rx="6" class="stack"/>
+    <text x="90" y="145" text-anchor="middle" class="text">original handle</text>
+    <rect x="190" y="120" width="140" height="58" rx="6" class="stack"/>
+    <text x="260" y="145" text-anchor="middle" class="text">duplicate handle</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="20" y="270" width="140" height="52" rx="6" class="heap"/>
+    <text x="90" y="301" text-anchor="middle" class="text">primary</text>
+    <rect x="190" y="270" width="140" height="52" rx="6" class="heap"/>
+    <text x="260" y="301" text-anchor="middle" class="text">primary</text>
+    <path d="M90 178 C90 220 90 230 90 267" class="arrow"/>
+    <path d="M260 178 C260 220 260 230 260 267" class="arrow"/>
+    <text x="20" y="490" class="text">two owners, two allocations</text>
+  </g>
+
+  <g transform="translate(810 55)">
+    <rect width="350" height="550" rx="10" class="panel"/>
+    <text x="175" y="32" text-anchor="middle" class="heading">Move: String</text>
+    <text x="175" y="58" text-anchor="middle" class="text">let owner = original</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="140" height="58" rx="6" class="moved"/>
+    <text x="90" y="145" text-anchor="middle" class="text">original</text>
+    <text x="90" y="165" text-anchor="middle" class="text">moved</text>
+    <rect x="190" y="120" width="140" height="58" rx="6" class="stack"/>
+    <text x="260" y="145" text-anchor="middle" class="text">owner handle</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="190" y="270" width="140" height="52" rx="6" class="heap"/>
+    <text x="260" y="301" text-anchor="middle" class="text">primary</text>
+    <path d="M260 178 C260 220 260 230 260 267" class="arrow"/>
+    <text x="20" y="490" class="text">one owner, one allocation</text>
+  </g>
+</svg>
