@@ -81,6 +81,17 @@ error[E0382]: borrow of moved value: `title`
    |                          ^^^^^ value borrowed here after move
 ```
 
+## Checkpoint 2
+
+<div class="quiz" data-answer="c" data-explanation="The message identifies the earlier move and the later use of the old binding, so it is ownership feedback rather than a runtime failure.">
+<p>What does <code>borrow of moved value: title</code> tell you?</p>
+<label><input type="radio" name="move-diagnostic" value="a"> The compiler detected a slow heap allocation while the program was running</label><br>
+<label><input type="radio" name="move-diagnostic" value="b"> <code>title</code> was copied twice and needs manual cleanup</label><br>
+<label><input type="radio" name="move-diagnostic" value="c"> <code>title</code> was moved earlier, then used again later</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result"></p>
+</div>
+
 The fix is to choose the intended ownership design. Use the new owner:
 
 ```rust
@@ -179,7 +190,7 @@ or borrow it.
 <p class="quiz-result"></p>
 </div>
 
-## Checkpoint 2
+## Checkpoint 3
 
 <div class="quiz" data-answer="c" data-explanation="Passing a String by value transfers ownership to the parameter.">
 <p>What does <code>take_ownership(message)</code> do?</p>
@@ -190,7 +201,7 @@ or borrow it.
 <p class="quiz-result"></p>
 </div>
 
-## Checkpoint 3
+## Checkpoint 4
 
 <div class="quiz" data-answer="a" data-explanation="Returning the String transfers ownership back to the caller under a new binding.">
 <p>Why can the caller use the result of <code>give_back</code>?</p>
@@ -201,24 +212,13 @@ or borrow it.
 <p class="quiz-result"></p>
 </div>
 
-## Checkpoint 4
+## Checkpoint 5
 
 <div class="quiz" data-answer="b" data-explanation="Moving the handle avoids copying the heap allocation and preserves one clear owner.">
 <p>Why does Rust move a <code>String</code> instead of silently copying it during assignment?</p>
 <label><input type="radio" name="move-reason" value="a"> To make the old variable global</label><br>
 <label><input type="radio" name="move-reason" value="b"> To keep one owner responsible for cleanup</label><br>
 <label><input type="radio" name="move-reason" value="c"> To prevent all heap allocation</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
-
-## Checkpoint 5
-
-<div class="quiz" data-answer="c" data-explanation="The message identifies the earlier move and the later use of the old binding, so it is ownership feedback rather than a runtime failure.">
-<p>What does <code>borrow of moved value: title</code> tell you?</p>
-<label><input type="radio" name="move-diagnostic" value="a"> The compiler detected a slow heap allocation while the program was running</label><br>
-<label><input type="radio" name="move-diagnostic" value="b"> <code>title</code> was copied twice and needs manual cleanup</label><br>
-<label><input type="radio" name="move-diagnostic" value="c"> <code>title</code> was moved earlier, then used again later</label><br>
 <button class="quiz-check">Check answer</button>
 <p class="quiz-result"></p>
 </div>
