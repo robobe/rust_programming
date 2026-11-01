@@ -314,10 +314,76 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#0-hello-rust" class="md-nav__link">
+  <a href="#0-hello-rust-and-tooling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        0. Hello, Rust
+        0. Hello, Rust and tooling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-rust-fundamentals-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Rust fundamentals — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ownership-and-borrowing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ownership and borrowing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-structs-enums-and-data-modeling-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Structs, enums, and data modeling — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-traits-generics-error-handling-and-testing-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Traits, generics, error handling, and testing — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-command-line-task-tracker-capstone-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Command-line task tracker capstone — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-advanced-rust-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6+. Advanced Rust — planned
       
     </span>
   </a>
@@ -831,10 +897,76 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#0-hello-rust" class="md-nav__link">
+  <a href="#0-hello-rust-and-tooling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        0. Hello, Rust
+        0. Hello, Rust and tooling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-rust-fundamentals-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Rust fundamentals — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ownership-and-borrowing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ownership and borrowing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-structs-enums-and-data-modeling-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Structs, enums, and data modeling — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-traits-generics-error-handling-and-testing-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Traits, generics, error handling, and testing — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-command-line-task-tracker-capstone-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Command-line task tracker capstone — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-advanced-rust-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6+. Advanced Rust — planned
       
     </span>
   </a>
@@ -859,13 +991,63 @@
 
 
 <h1 id="syllabus">Syllabus</h1>
-<h2 id="0-hello-rust"><a href="../modules/00-first-lesson/">0. Hello, Rust</a></h2>
+<p>This syllabus moves from toolchain basics to ownership, then into application
+design and a tested command-line capstone. Modules marked <strong>planned</strong> describe
+the next course stages; the linked modules are available now.</p>
+<h2 id="0-hello-rust-and-tooling"><a href="../modules/00-first-lesson/">0. Hello, Rust and tooling</a></h2>
 <ul>
-<li>Install the toolchain and compile a first Rust program.</li>
-<li>Read the shape of a <code>main</code> function and a <code>println!</code> macro.</li>
-<li>Make a small change and observe the compiler feedback.</li>
+<li>Install Rust and understand <code>rustup</code>, <code>rustc</code>, Cargo, <code>rustfmt</code>, Clippy, and
+  rust-analyzer.</li>
+<li>Build, run, format, check, test, and package a Hello World application.</li>
+<li>Organize Cargo workspaces and cross-compile for a Raspberry Pi Pico.</li>
 </ul>
-<p>Add one section per module and link it to the module overview.</p>
+<h2 id="1-rust-fundamentals-planned">1. Rust fundamentals — planned</h2>
+<ul>
+<li>Variables, mutability, scalar and compound types.</li>
+<li>Functions, expressions, control flow, and pattern basics.</li>
+<li>Structuring small programs with Cargo.</li>
+<li>Testing simple behavior and reading compiler feedback.</li>
+</ul>
+<h2 id="2-ownership-and-borrowing"><a href="../modules/02-ownership-and-borrowing/">2. Ownership and borrowing</a></h2>
+<ul>
+<li>Values, variables, scope, stack and heap storage.</li>
+<li>Move semantics, <code>Copy</code>, and <code>Clone</code>.</li>
+<li>Shared and mutable borrowing.</li>
+<li>Collections, iterators, slices, and API boundaries.</li>
+<li>Lifetimes, smart pointers, and advanced ownership patterns.</li>
+</ul>
+<h2 id="3-structs-enums-and-data-modeling-planned">3. Structs, enums, and data modeling — planned</h2>
+<ul>
+<li>Define structs and implement methods with <code>impl</code> blocks.</li>
+<li>Use associated functions and model domain data.</li>
+<li>Define enums and use <code>match</code>, <code>if let</code>, and pattern matching.</li>
+<li>Represent missing values with <code>Option&lt;T&gt;</code>.</li>
+<li>Model operation outcomes with <code>Result&lt;T, E&gt;</code>.</li>
+</ul>
+<h2 id="4-traits-generics-error-handling-and-testing-planned">4. Traits, generics, error handling, and testing — planned</h2>
+<ul>
+<li>Define and implement traits.</li>
+<li>Use generic functions, generic types, and trait bounds.</li>
+<li>Derive common traits such as <code>Debug</code>, <code>Clone</code>, and <code>Default</code>.</li>
+<li>Create custom error types and propagate errors with <code>?</code>.</li>
+<li>Organize modules, visibility, Cargo targets, and unit/integration tests.</li>
+</ul>
+<h2 id="5-command-line-task-tracker-capstone-planned">5. Command-line task tracker capstone — planned</h2>
+<ul>
+<li>Parse command-line commands and arguments.</li>
+<li>Combine structs, enums, ownership, borrowing, and error handling.</li>
+<li>Persist tasks to a file using a stable data format.</li>
+<li>Split the application into focused Cargo modules.</li>
+<li>Add unit tests, integration tests, and useful user-facing errors.</li>
+</ul>
+<h2 id="6-advanced-rust-planned">6+. Advanced Rust — planned</h2>
+<ul>
+<li>Lifetimes in larger APIs and borrowed data structures.</li>
+<li>Closures, advanced iterators, smart pointers, and shared ownership.</li>
+<li>Threads, synchronization, and concurrency boundaries.</li>
+<li>Async Rust and task-based I/O.</li>
+<li>Performance analysis, unsafe Rust, and FFI contracts.</li>
+</ul>
 
 
 
