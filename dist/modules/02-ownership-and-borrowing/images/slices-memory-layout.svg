@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 650" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual memory layout of Rust slices</title>
+  <desc id="desc">Four panels show a String and its string slice, a Vec and its element slice, a sub-slice selecting part of an array, and a returned slice tied to input data.</desc>
+  <style>
+    .panel { fill: #fff; stroke: #334155; stroke-width: 2; }
+    .heading { fill: #0f172a; font: 700 18px sans-serif; }
+    .label { fill: #334155; font: 600 14px sans-serif; }
+    .text { fill: #334155; font: 14px sans-serif; }
+    .owner { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .data { fill: #dcfce7; stroke: #16a34a; stroke-width: 1.5; }
+    .slice { fill: #f3e8ff; stroke: #7c3aed; stroke-width: 1.5; }
+    .selected { fill: #fef3c7; stroke: #d97706; stroke-width: 1.5; }
+    .arrow { stroke: #7c3aed; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+    .select-arrow { stroke: #d97706; stroke-width: 2.5; fill: none; marker-end: url(#selecthead); }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7c3aed"/></marker>
+    <marker id="selecthead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#d97706"/></marker>
+  </defs>
+
+  <text x="590" y="30" text-anchor="middle" class="heading">A slice is a pointer plus length into data owned elsewhere</text>
+
+  <g transform="translate(20 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">1. String and &amp;str</text>
+    <text x="135" y="58" text-anchor="middle" class="text">first_word(&amp;sentence)</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="105" height="58" rx="6" class="owner"/>
+    <text x="72" y="145" text-anchor="middle" class="text">String</text>
+    <text x="72" y="165" text-anchor="middle" class="text">owner</text>
+    <rect x="145" y="120" width="105" height="58" rx="6" class="slice"/>
+    <text x="197" y="145" text-anchor="middle" class="text">&amp;str</text>
+    <text x="197" y="165" text-anchor="middle" class="text">ptr + len</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="20" y="270" width="230" height="52" rx="6" class="data"/>
+    <text x="135" y="301" text-anchor="middle" class="text">Rust makes views useful</text>
+    <path d="M197 178 C197 220 175 230 175 267" class="arrow"/>
+    <text x="20" y="490" class="text">String owns all text</text>
+  </g>
+
+  <g transform="translate(310 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">2. Vec and &[T]</text>
+    <text x="135" y="58" text-anchor="middle" class="text">sum_values(&amp;vector)</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="105" height="58" rx="6" class="owner"/>
+    <text x="72" y="145" text-anchor="middle" class="text">Vec</text>
+    <text x="72" y="165" text-anchor="middle" class="text">owner</text>
+    <rect x="145" y="120" width="105" height="58" rx="6" class="slice"/>
+    <text x="197" y="145" text-anchor="middle" class="text">&amp;[T]</text>
+    <text x="197" y="165" text-anchor="middle" class="text">ptr + len</text>
+    <text x="20" y="250" class="label">HEAP</text>
+    <rect x="20" y="270" width="65" height="52" rx="6" class="data"/><text x="52" y="301" text-anchor="middle" class="text">5</text>
+    <rect x="102" y="270" width="65" height="52" rx="6" class="data"/><text x="134" y="301" text-anchor="middle" class="text">6</text>
+    <rect x="185" y="270" width="65" height="52" rx="6" class="data"/><text x="217" y="301" text-anchor="middle" class="text">7</text>
+    <path d="M197 178 C197 220 150 230 150 267" class="arrow"/>
+    <text x="20" y="490" class="text">Vec remains the owner</text>
+  </g>
+
+  <g transform="translate(600 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">3. sub-slice</text>
+    <text x="135" y="58" text-anchor="middle" class="text">&amp;array[1..3]</text>
+    <text x="20" y="100" class="label">STACK</text>
+    <rect x="20" y="120" width="105" height="58" rx="6" class="owner"/>
+    <text x="72" y="145" text-anchor="middle" class="text">array</text>
+    <text x="72" y="165" text-anchor="middle" class="text">owner</text>
+    <rect x="145" y="120" width="105" height="58" rx="6" class="slice"/>
+    <text x="197" y="145" text-anchor="middle" class="text">slice</text>
+    <text x="197" y="165" text-anchor="middle" class="text">ptr + len 2</text>
+    <text x="20" y="250" class="label">ARRAY DATA</text>
+    <rect x="20" y="270" width="50" height="52" rx="6" class="data"/><text x="45" y="301" text-anchor="middle" class="text">10</text>
+    <rect x="75" y="270" width="50" height="52" rx="6" class="selected"/><text x="100" y="301" text-anchor="middle" class="text">20</text>
+    <rect x="130" y="270" width="50" height="52" rx="6" class="selected"/><text x="155" y="301" text-anchor="middle" class="text">30</text>
+    <rect x="185" y="270" width="50" height="52" rx="6" class="data"/><text x="210" y="301" text-anchor="middle" class="text">40</text>
+    <path d="M197 178 C197 220 155 230 130 267" class="select-arrow"/>
+    <text x="20" y="490" class="text">slice selects, does not copy</text>
+  </g>
+
+  <g transform="translate(890 55)">
+    <rect width="270" height="550" rx="10" class="panel"/>
+    <text x="135" y="32" text-anchor="middle" class="heading">4. safe return</text>
+    <text x="135" y="58" text-anchor="middle" class="text">result tied to input</text>
+    <text x="20" y="100" class="label">CALLER STACK</text>
+    <rect x="20" y="120" width="105" height="58" rx="6" class="owner"/>
+    <text x="72" y="145" text-anchor="middle" class="text">sentence</text>
+    <text x="72" y="165" text-anchor="middle" class="text">owner</text>
+    <rect x="145" y="120" width="105" height="58" rx="6" class="slice"/>
+    <text x="197" y="145" text-anchor="middle" class="text">word</text>
+    <text x="197" y="165" text-anchor="middle" class="text">borrowed view</text>
+    <text x="20" y="250" class="label">RULE</text>
+    <rect x="20" y="270" width="230" height="52" rx="6" class="selected"/>
+    <text x="135" y="301" text-anchor="middle" class="text">input outlives result</text>
+    <path d="M197 178 C197 220 175 230 175 267" class="arrow"/>
+    <text x="20" y="490" class="text">no dangling reference</text>
+  </g>
+</svg>

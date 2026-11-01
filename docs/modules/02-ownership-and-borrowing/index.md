@@ -70,6 +70,8 @@ Continue with [Borrowing collections and iterators](06-borrowing-collections-and
 - Choosing owned values versus borrowed parameters
 - Using `AsRef`, `Borrow`, and generic bounds when they add real value
 
+Continue with [Slices and API boundaries](07-slices-and-api-boundaries.md).
+
 ### 8. Lifetimes: describing relationships
 
 - Why a reference needs a valid lifetime

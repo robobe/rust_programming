@@ -46,3 +46,4 @@ nav:
       - Shared borrowing: modules/02-ownership-and-borrowing/ownership-and-borrowing.md
       - Mutable borrowing: modules/02-ownership-and-borrowing/05-mutable-borrowing.md
       - Borrowing collections and iterators: modules/02-ownership-and-borrowing/06-borrowing-collections-and-iterators.md
+      - Slices and API boundaries: modules/02-ownership-and-borrowing/07-slices-and-api-boundaries.md
