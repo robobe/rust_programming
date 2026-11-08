@@ -1,8 +1,9 @@
 # Module 2: Ownership and borrowing
 
-This module moves from the basic ownership rule to advanced lifetime and API
-design patterns. Learn the topics in order because each stage depends on the
-mental model built by the previous one.
+This module introduces ownership, borrowing, slices, and basic lifetimes after
+[Module 1 fundamentals](../01-fundamentals/index.md). Topics 1–7 are published; Topic 8 is planned.
+Complete these foundations before
+[Module 3: Structs, enums, and data modeling](../03-structs-enums-and-data-modeling/index.md).
 
 ## Learning path
 
@@ -79,6 +80,24 @@ Continue with [Slices and API boundaries](07-slices-and-api-boundaries.md).
 - Shared lifetime parameters in functions
 - Returning a reference tied to an input
 - Why lifetimes do not make data live longer
+
+### 9. Ownership hands-on review
+
+- Explain scope, ownership, moves, Copy, and Clone in your own words.
+- Trace ownership, repair compiler errors, and complete a snapshot program.
+- Iterate over borrowed slices, update a selected range, and return borrowed text.
+- Combine borrowed edits and reads with a final consuming title-selection step.
+- Current practice set covers selected skills from Topics 2.1–2.7.
+
+Finish with [Ownership hands-on review](09-hands-on.md).
+
+## Advanced continuation — planned for later modules
+
+The headings below retain their original topic numbers for existing links.
+They are no longer prerequisites for finishing Module 2. Study structs,
+traits, and error handling first, then follow the [syllabus](../../syllabus.md).
+Topics 9–11 belong to Module 9; Topic 12 spans Modules 9–10; Topic 13 spans
+Modules 9–10; Topic 14 belongs to Module 8; Topic 15 spans Modules 10–13.
 
 ### 9. Structs that contain references
 

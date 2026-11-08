@@ -33,11 +33,22 @@ nav:
   - Roadmap: roadmap.md
   - Syllabus: syllabus.md
   - Module 0:
-      - Setup and Hello World: modules/00-first-lesson/index.md
-      - From source to DEB: modules/00-first-lesson/from-source-to-deb.md
-      - Linux compiler output: modules/00-first-lesson/linux-compiler-output.md
-      - Workspace with a binary and library: modules/00-first-lesson/cargo-workspace.md
-      - Cross-compile for Raspberry Pi Pico: modules/00-first-lesson/rp2040-cross-compile.md
+      - Topic index: modules/00-first-lesson/index.md
+      - "Topic 1: Setup and Hello World": modules/00-first-lesson/01-setup-and-hello-world.md
+      - From source to DEB: modules/00-first-lesson/02-from-source-to-deb.md
+      - Linux compiler output: modules/00-first-lesson/03-linux-compiler-output.md
+      - Workspace with a binary and library: modules/00-first-lesson/04-cargo-workspace.md
+      - Cross-compile for Raspberry Pi Pico: modules/00-first-lesson/05-rp2040-cross-compile.md
+  - "Module 1: Rust fundamentals":
+      - Topic index: modules/01-fundamentals/index.md
+      - "Topic 1: Fundamentals overview": modules/01-fundamentals/01-fundamentals-overview.md
+      - "Topic 2: Variables, mutability, and shadowing": modules/01-fundamentals/02-variables-mutability-shadowing.md
+      - "Topic 3: Scalar types and operators": modules/01-fundamentals/03-scalar-types-and-operators.md
+      - "Topic 4: Arrays, tuples, strings, and vectors": modules/01-fundamentals/04-arrays-tuples-strings-vectors.md
+      - "Topic 5: Functions, statements, and expressions": modules/01-fundamentals/05-functions-statements-expressions.md
+      - "Topic 6: Conditions and pattern basics": modules/01-fundamentals/06-conditions-and-patterns.md
+      - "Topic 7: Loops and ranges": modules/01-fundamentals/07-loops-and-ranges.md
+      - "Topic 8: Cargo practice, tests, and compiler feedback": modules/01-fundamentals/08-cargo-tests-compiler-feedback.md
   - "Module 2: Ownership and borrowing":
       - Topic index: modules/02-ownership-and-borrowing/index.md
       - Values, variables, and scope: modules/02-ownership-and-borrowing/01-values-variables-scope.md
@@ -47,3 +58,9 @@ nav:
       - Mutable borrowing: modules/02-ownership-and-borrowing/05-mutable-borrowing.md
       - Borrowing collections and iterators: modules/02-ownership-and-borrowing/06-borrowing-collections-and-iterators.md
       - Slices and API boundaries: modules/02-ownership-and-borrowing/07-slices-and-api-boundaries.md
+      - "Topic 9: Ownership hands-on review": modules/02-ownership-and-borrowing/09-hands-on.md
+  - "Module 3: Structs, enums, and data modeling":
+      - Topic index: modules/03-structs-enums-and-data-modeling/index.md
+      - Structs: modules/03-structs-enums-and-data-modeling/01-structs.md
+      - Methods and associated functions: modules/03-structs-enums-and-data-modeling/02-methods.md
+      - Enums: modules/03-structs-enums-and-data-modeling/03-enum.md

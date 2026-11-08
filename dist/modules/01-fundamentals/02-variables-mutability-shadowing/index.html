@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../01-fundamentals-overview/">
       
       
-        <link rel="next" href="../linux-compiler-output/">
+        <link rel="next" href="../03-scalar-types-and-operators/">
       
       
         
@@ -25,7 +25,7 @@
     
     
       
-        <title>From source to DEB - Rust Programming: From Zero to Useful</title>
+        <title>Topic 2: Variables, mutability, and shadowing - Rust Programming: From Zero to Useful</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#from-source-to-deb" class="md-skip">
+        <a href="#topic-2-variables-mutability-and-shadowing" class="md-skip">
           Skip to content
         </a>
       
@@ -105,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              From source to DEB
+              Topic 2: Variables, mutability, and shadowing
             
           </span>
         </div>
@@ -278,20 +278,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -312,12 +310,236 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
     Module 0
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/01-setup-and-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic 1: Setup and Hello World
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/02-from-source-to-deb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    From source to DEB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/03-linux-compiler-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux compiler output
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/04-cargo-workspace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace with a binary and library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00-first-lesson/05-rp2040-cross-compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-compile for Raspberry Pi Pico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1: Rust fundamentals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1: Rust fundamentals
   
 
           </label>
@@ -337,7 +559,35 @@
   <span class="md-ellipsis">
     
   
-    Setup and Hello World
+    Topic index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-fundamentals-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic 1: Fundamentals overview
   
 
     
@@ -374,7 +624,7 @@
   <span class="md-ellipsis">
     
   
-    From source to DEB
+    Topic 2: Variables, mutability, and shadowing
   
 
     
@@ -392,7 +642,7 @@
   <span class="md-ellipsis">
     
   
-    From source to DEB
+    Topic 2: Variables, mutability, and shadowing
   
 
     
@@ -418,10 +668,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#by-the-end-you-will-be-able-to" class="md-nav__link">
+  <a href="#names-and-change" class="md-nav__link">
     <span class="md-ellipsis">
       
-        By the end, you will be able to
+        Names and change
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Names and change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runnable example
       
     </span>
   </a>
@@ -429,10 +707,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-workflow" class="md-nav__link">
+  <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The workflow
+        Exercise
       
     </span>
   </a>
@@ -440,10 +718,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-prepare-the-project" class="md-nav__link">
+  <a href="#check-your-understanding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Prepare the project
+        Check your understanding
       
     </span>
   </a>
@@ -451,76 +729,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-install-the-debian-packager" class="md-nav__link">
+  <a href="#next" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Install the Debian packager
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-add-package-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Add package metadata
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-create-the-deb-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Create the .deb file
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-inspect-and-install-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Inspect and install it
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-matters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture matters
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
+        Next
       
     </span>
   </a>
@@ -543,14 +755,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux-compiler-output/" class="md-nav__link">
+      <a href="../03-scalar-types-and-operators/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Linux compiler output
+    Topic 3: Scalar types and operators
   
 
     
@@ -571,14 +783,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../cargo-workspace/" class="md-nav__link">
+      <a href="../04-arrays-tuples-strings-vectors/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Workspace with a binary and library
+    Topic 4: Arrays, tuples, strings, and vectors
   
 
     
@@ -599,14 +811,98 @@
   
   
     <li class="md-nav__item">
-      <a href="../rp2040-cross-compile/" class="md-nav__link">
+      <a href="../05-functions-statements-expressions/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Cross-compile for Raspberry Pi Pico
+    Topic 5: Functions, statements, and expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-conditions-and-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic 6: Conditions and pattern basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-loops-and-ranges/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic 7: Loops and ranges
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-cargo-tests-compiler-feedback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic 8: Cargo practice, tests, and compiler feedback
   
 
     
@@ -642,10 +938,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -663,8 +959,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -898,6 +1194,200 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-ownership-and-borrowing/09-hands-on/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic 9: Ownership hands-on review
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 3: Structs, enums, and data modeling
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 3: Structs, enums, and data modeling
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-structs-enums-and-data-modeling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topic index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-structs-enums-and-data-modeling/01-structs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-structs-enums-and-data-modeling/02-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods and associated functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-structs-enums-and-data-modeling/03-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enums
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -932,10 +1422,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#by-the-end-you-will-be-able-to" class="md-nav__link">
+  <a href="#names-and-change" class="md-nav__link">
     <span class="md-ellipsis">
       
-        By the end, you will be able to
+        Names and change
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Names and change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runnable-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runnable example
       
     </span>
   </a>
@@ -943,10 +1461,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-workflow" class="md-nav__link">
+  <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The workflow
+        Exercise
       
     </span>
   </a>
@@ -954,10 +1472,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-prepare-the-project" class="md-nav__link">
+  <a href="#check-your-understanding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Prepare the project
+        Check your understanding
       
     </span>
   </a>
@@ -965,76 +1483,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-install-the-debian-packager" class="md-nav__link">
+  <a href="#next" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Install the Debian packager
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-add-package-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Add package metadata
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-create-the-deb-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Create the .deb file
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-inspect-and-install-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Inspect and install it
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-matters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture matters
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#checkpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Checkpoint
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
+        Next
       
     </span>
   </a>
@@ -1058,110 +1510,84 @@
 
 
 
-<h1 id="from-source-to-deb">From source to DEB</h1>
-<h2 id="by-the-end-you-will-be-able-to">By the end, you will be able to</h2>
+<h1 id="topic-2-variables-mutability-and-shadowing">Topic 2: Variables, mutability, and shadowing</h1>
+<p>By the end, you will be able to</p>
 <ul>
-<li>Build a Rust release binary with Cargo.</li>
-<li>Package it as a Debian <code>.deb</code> file.</li>
-<li>Install and remove the package on Debian or Ubuntu.</li>
+<li>Declare immutable and mutable bindings.</li>
+<li>Distinguish mutation from shadowing.</li>
+<li>Define a typed constant.</li>
 </ul>
+<p>Prerequisite: <a href="../01-fundamentals-overview/">Topic 1: Fundamentals overview</a>.</p>
 <hr />
-<h2 id="the-workflow">The workflow</h2>
-<p><code>cargo-deb</code> reads your Cargo project, builds the release binary, and places it
-inside a Debian package with metadata from <code>Cargo.toml</code>.</p>
-<pre class="mermaid"><code>flowchart LR
-  S[Rust source] --&gt; C[Cargo build]
-  C --&gt; P[cargo-deb]
-  P --&gt; D[.deb package]
-  D --&gt; I[apt install]</code></pre>
-<p>This lesson assumes a binary Cargo project with a <code>Cargo.toml</code> file and a
-<code>src/main.rs</code> entry point.</p>
-<h2 id="1-prepare-the-project">1. Prepare the project</h2>
-<p>From the project root, check, format, lint, and test before packaging:</p>
-<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>fmt<span class="w"> </span>--<span class="w"> </span>--check
-cargo<span class="w"> </span>clippy<span class="w"> </span>--all-targets<span class="w"> </span>--all-features<span class="w"> </span>--<span class="w"> </span>-D<span class="w"> </span>warnings
-cargo<span class="w"> </span><span class="nb">test</span>
-cargo<span class="w"> </span>build<span class="w"> </span>--release
+<h2 id="names-and-change">Names and change</h2>
+<p>A variable gives a value a name. Rust infers many types, but function interfaces
+and ambiguous values need explicit types. A binding is immutable by default.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">attempts</span><span class="p">:</span><span class="w"> </span><span class="kt">u8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="n">attempts</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">             </span><span class="c1">// Mutation requires mut.</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attempts</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span><span class="w"> </span><span class="c1">// Shadowing creates a new binding.</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">"{attempts}"</span><span class="p">);</span>
 </code></pre></div>
-<p>The release binary is written to <code>target/release/&lt;binary-name&gt;</code>.</p>
-<h2 id="2-install-the-debian-packager">2. Install the Debian packager</h2>
-<p>Install the Cargo subcommand once:</p>
-<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>install<span class="w"> </span>cargo-deb
-</code></pre></div>
-<p>If installation reports that Rust is too old, update the Rust toolchain first:</p>
-<div class="highlight"><pre><span></span><code>rustup<span class="w"> </span>update
-</code></pre></div>
-<h2 id="3-add-package-metadata">3. Add package metadata</h2>
-<p>A basic binary can be packaged without extra configuration. Add metadata when
-you want a maintainer, section, or explicit runtime dependencies:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[package.metadata.deb]</span>
-<span class="n">maintainer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Your Name &lt;you@example.com&gt;"</span>
-<span class="n">section</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"utils"</span>
-<span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"optional"</span>
-<span class="n">depends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"$auto"</span>
-</code></pre></div>
-<p>The package name and version come from the <code>[package]</code> section:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[package]</span>
-<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hello-rust"</span>
-<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0.1.0"</span>
-</code></pre></div>
-<h2 id="4-create-the-deb-file">4. Create the <code>.deb</code> file</h2>
-<p>Run this from the directory containing <code>Cargo.toml</code>:</p>
-<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>deb
-</code></pre></div>
-<p>The result is written to <code>target/debian/</code>. Its filename contains the package
-name, version, Debian revision, and architecture, for example:</p>
-<div class="highlight"><pre><span></span><code>target/debian/hello-rust_0.1.0-1_amd64.deb
-</code></pre></div>
-<p>To package the course Hello World project from the repository root:</p>
-<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>deb<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--manifest-path<span class="w"> </span>examples/00-first-lesson/hello-world/Cargo.toml
-</code></pre></div>
-<h2 id="5-inspect-and-install-it">5. Inspect and install it</h2>
-<p>Inspect the archive before installing it:</p>
-<div class="highlight"><pre><span></span><code>dpkg-deb<span class="w"> </span>--info<span class="w"> </span>target/debian/hello-rust_*.deb
-dpkg-deb<span class="w"> </span>--contents<span class="w"> </span>target/debian/hello-rust_*.deb
-</code></pre></div>
-<p>Install it locally with <code>apt</code>, which can resolve package dependencies:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>./target/debian/hello-rust_*.deb
-</code></pre></div>
-<p>Run the installed program:</p>
-<div class="highlight"><pre><span></span><code>hello-rust
-</code></pre></div>
-<p>Remove it later with:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>remove<span class="w"> </span>hello-rust
-</code></pre></div>
-<h2 id="architecture-matters">Architecture matters</h2>
-<p>A <code>.deb</code> is built for a target architecture. Check the architecture of the
-current machine with:</p>
-<div class="highlight"><pre><span></span><code>dpkg<span class="w"> </span>--print-architecture
-</code></pre></div>
-<p>For a specific Rust target, install the target toolchain and pass it to
-<code>cargo-deb</code>:</p>
-<div class="highlight"><pre><span></span><code>rustup<span class="w"> </span>target<span class="w"> </span>add<span class="w"> </span>x86_64-unknown-linux-gnu
-cargo<span class="w"> </span>deb<span class="w"> </span>--target<span class="w"> </span>x86_64-unknown-linux-gnu
-</code></pre></div>
-<p>Cross-compilation may also require a linker and system libraries for the target
-architecture.</p>
-<hr />
-<h2 id="checkpoint">Checkpoint</h2>
-<div class="quiz" data-answer="b">
-<p>Which command creates the Debian package?</p>
-<label><input type="radio" name="deb-command" value="a"> <code>cargo publish</code></label><br>
-<label><input type="radio" name="deb-command" value="b"> <code>cargo deb</code></label><br>
-<label><input type="radio" name="deb-command" value="c"> <code>rustc --deb</code></label><br>
+<p>Shadowing with another <code>let</code> can change the type; assigning to an existing
+<code>mut</code> binding cannot change its type. Use <code>const LIMIT: usize = 10;</code> for a
+named constant whose value is computed at compile time.</p>
+<h3 id="checkpoint-1">Checkpoint 1</h3>
+<div class="quiz" data-answer="b" data-explanation="Shadowing introduces a new binding, which may have a different type.">
+<p>Why is the final <code>let attempts = attempts.to_string()</code> allowed?</p>
+<label><input type="radio" name="fundamentals-1" value="a"> mut permits any type change</label><br>
+<label><input type="radio" name="fundamentals-1" value="b"> A new binding shadows the old one</label><br>
+<label><input type="radio" name="fundamentals-1" value="c"> All variables are strings internally</label><br>
 <button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
+<p class="quiz-result" aria-live="polite"></p>
+</div>
+<p>A constant needs an explicit type and a compile-time value. For example,
+<code>const LIMIT: usize = 10;</code> does not create a mutable counter.</p>
+<div class="quiz" data-answer="b" data-explanation="Mutation changes a value of the same type; shadowing introduces a new binding.">
+<p>Can assigning to a mutable integer binding change its type to text?</p>
+<label><input type="radio" name="fundamentals-t2-q2" value="a"> Yes, mut allows any type</label><br>
+<label><input type="radio" name="fundamentals-t2-q2" value="b"> No, assignment preserves the binding’s type</label><br>
+<label><input type="radio" name="fundamentals-t2-q2" value="c"> Only if the text contains digits</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result" aria-live="polite"></p>
 </div>
 
-<h2 id="summary">Summary</h2>
-<p>The repeatable release path is:</p>
-<div class="highlight"><pre><span></span><code>cargo<span class="w"> </span>fmt<span class="w"> </span>--<span class="w"> </span>--check
-cargo<span class="w"> </span>clippy<span class="w"> </span>--all-targets<span class="w"> </span>--all-features<span class="w"> </span>--<span class="w"> </span>-D<span class="w"> </span>warnings
-cargo<span class="w"> </span><span class="nb">test</span>
-cargo<span class="w"> </span>deb
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>./target/debian/*.deb
+<hr />
+<h2 id="runnable-example">Runnable example</h2>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">LIMIT</span><span class="p">:</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">attempts</span><span class="p">:</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">attempts</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">attempts</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">assert!</span><span class="p">(</span><span class="n">attempts</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">LIMIT</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">attempts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attempts</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">attempts</span><span class="p">,</span><span class="w"> </span><span class="s">"3"</span><span class="p">);</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"attempts: {attempts}, limit: {LIMIT}"</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
+<p>Run from the repository root:</p>
+<div class="highlight"><pre><span></span><code>rustc<span class="w"> </span>examples/01-fundamentals/02-variables-mutability-shadowing/main.rs<span class="w"> </span>-o<span class="w"> </span>/tmp/rust-fundamentals-2
+/tmp/rust-fundamentals-2
+</code></pre></div>
+<p>Expected output:</p>
+<div class="highlight"><pre><span></span><code>attempts: 3, limit: 10
+</code></pre></div>
+<hr />
+<h2 id="exercise">Exercise</h2>
+<p>Start the counter at 4, increase it by 2, and update the assertions. Remove
+<code>mut</code>, read the error, then restore it. Explain why shadowing still needs a
+new <code>let</code> even when the original binding is mutable.</p>
+<h2 id="check-your-understanding">Check your understanding</h2>
+<div class="quiz" data-answer="c" data-explanation="let introduces a binding; reusing the name shadows the previous binding.">
+<p>Which choice creates a new binding?</p>
+<label><input type="radio" name="fundamentals-t2-q3" value="a"> <code>attempts += 1;</code></label><br>
+<label><input type="radio" name="fundamentals-t2-q3" value="b"> <code>println!("{attempts}");</code></label><br>
+<label><input type="radio" name="fundamentals-t2-q3" value="c"> <code>let attempts = attempts.to_string();</code></label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result" aria-live="polite"></p>
+</div>
+
+<hr />
+<h2 id="next">Next</h2>
+<p>Continue with <a href="../03-scalar-types-and-operators/">Topic 3: Scalar types and operators</a>. Return to the <a href="../">topic index</a>.</p>
 
 
 

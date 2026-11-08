@@ -9,3 +9,10 @@
 }
 
 .quiz-result { font-weight: 600; }
+
+.quiz label.quiz-correct {
+  background: #dcfce7;
+  border: 1px solid #15803d;
+  border-radius: 0.2rem;
+  color: #14532d;
+}

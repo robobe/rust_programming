@@ -1,151 +1,72 @@
-# Module 0: Set up Rust and build Hello World
+# Module 0: Hello, Rust and tooling
 
-## By the end, you will be able to
+By the end, you will be able to install Rust and build, run, format, and check
+a Hello World application.
 
-- Install the stable Rust toolchain with `rustup`.
-- Explain the jobs of `rustup`, `rustc`, and Cargo.
-- Build, run, format, check, and package a small application.
+- Install and understand the Rust toolchain.
+- Create and run a Cargo application.
+- Explore optional packaging, compiler-output, workspace, and embedded workflows.
 
----
-
-## Intuition
-
-Rust programs start at a function named `main`. The `println!` macro writes a
-line of text to the terminal. Rust checks the program before running it, so
-mistakes are reported early by the compiler.
-
-```mermaid
-flowchart LR
-  A[main function] --> B[println! macro]
-  B --> C[Compiled binary]
-```
+Prerequisites: a terminal and basic programming familiarity. All five topics
+are published. Complete Topic 1 for the main course; Topics 2–5 are optional
+extensions and are not prerequisites for Module 1.
 
 ---
 
-## Install the toolchain
+## 1. Set up Rust and build Hello World
 
-The recommended installer is `rustup`. On Linux, macOS, or WSL, run:
+- Install stable Rust with `rustup`.
+- Understand `rustc`, Cargo, formatting, linting, and editor tools.
+- Create, build, run, check, test, and package a small application.
 
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
+Start with [Setup and Hello World](01-setup-and-hello-world.md).
 
-Accept the default stable toolchain, then open a new terminal so the Cargo bin
-directory is on your `PATH`. On Windows, download and run `rustup-init.exe`
-from the [official installation page](https://rust-lang.org/tools/install/).
-Windows builds may also need the Visual Studio C++ build tools.
+---
 
-Verify the installation:
+## 2. From source to DEB — optional
 
-```bash
-rustup show
-rustc --version
-cargo --version
-```
+- Build an optimized release binary.
+- Package an application as a Debian `.deb` file.
+- Install and remove the package on Debian or Ubuntu.
 
-Keep the stable toolchain current with `rustup update`. If a command is not
-found after installation, restart the terminal and check that
-`$HOME/.cargo/bin` is on `PATH`.
+After Topic 1, explore [From source to DEB](02-from-source-to-deb.md).
 
-## The important commands
+---
 
-| Command | Job |
-| --- | --- |
-| `rustup` | Installs and selects Rust toolchains and components. |
-| `rustc` | Compiles a Rust source file directly. |
-| `cargo` | Creates, builds, runs, tests, documents, and packages projects. |
-| `rustfmt` | Formats Rust source consistently. |
-| `clippy` | Finds common mistakes and non-idiomatic Rust. |
-| `rustdoc` | Generates API documentation from Rust comments. |
-| `rust-analyzer` | Gives editor features such as completion and diagnostics. |
+## 3. Linux compiler output — optional
 
-The standard stable installation includes Cargo, `rustfmt`, and Clippy. If a
-component is missing, install it explicitly:
+- Locate Cargo's generated files on Linux.
+- Compare debug and release output.
+- Inspect executable and library artifacts.
 
-```bash
-rustup component add rustfmt clippy
-rustup component add rust-src  # useful for rust-analyzer
-```
+After Topic 1, explore [Linux compiler output](03-linux-compiler-output.md).
 
-Most editors install or bundle `rust-analyzer`; VS Code uses the official
-extension. The compiler tools work independently of any editor.
+---
 
-## Create a Hello World application
+## 4. Cargo workspace with a binary and library — optional
 
-Cargo keeps the source layout and build metadata together. From the repository
-root, create a new application in a temporary directory:
+- Group related packages under a workspace manifest.
+- Separate an executable from reusable library code.
+- Organize library modules and call them from the executable.
 
-```bash
-cargo new /tmp/hello-rust
-cd /tmp/hello-rust
-```
+After Topic 1, explore [Cargo workspaces](04-cargo-workspace.md).
 
-Cargo creates `Cargo.toml` and `src/main.rs`. Replace `src/main.rs` with:
+---
 
-```rust
-fn main() {
-    println!("Hello, Rust!");
-}
-```
+## 5. Cross-compile for Raspberry Pi Pico — optional
 
-## Build, run, and package it
+- Build firmware for the RP2040 target.
+- Flash through the USB bootloader and print over USB serial.
+- Understand the role of a debug probe.
 
-Run these commands inside `/tmp/hello-rust`:
+After Topic 1, explore [Raspberry Pi Pico cross-compilation](05-rp2040-cross-compile.md).
+Follow that lesson's hardware and tool prerequisites.
 
-```bash
-cargo check                 # type-check quickly without creating a binary
-cargo build                 # debug build in target/debug/
-cargo run                   # build if needed, then run the binary
-cargo run -- Rust           # pass Rust as an argument to the binary
-cargo build --release       # optimized build in target/release/
-cargo test                  # run tests, when the project has tests
-cargo doc --open            # build and open local API documentation
-cargo package --allow-dirty # validate the package archive locally
-```
+---
 
-For this application, the release binary is `target/release/hello-rust` on
-Linux and macOS, or `target/release/hello-rust.exe` on Windows. `cargo package`
-creates a crate archive for distribution and checks that the package can be
-published. It does not upload anything. Use `cargo publish` only when you
-intend to publish a crate to crates.io.
+## Completion and next module
 
-## Format and lint before sharing
+You are ready to continue when you can run Hello World and explain which
+commands build, check, and format it.
 
-```bash
-cargo fmt                 # format the whole project
-cargo fmt -- --check      # fail if formatting would change files
-cargo clippy --all-targets --all-features -- -D warnings
-```
-
-`rustfmt` handles layout. Clippy provides advice about correctness,
-performance, and idiomatic style. Treat warnings as errors in CI when the
-project is ready for that policy.
-
-The commands above are the standard Rust workflow: check, format, lint, test,
-build, then create a release artifact.
-
-## Run the course example
-
-The repository also contains a Cargo version of Hello World:
-
-```bash
-cargo run --manifest-path examples/00-first-lesson/hello-world/Cargo.toml
-```
-
-Expected output:
-
-```text
-Hello, Rust!
-```
-
-## Exercise
-
-Change the message in `examples/00-first-lesson/hello-world/src/main.rs`, run
-`cargo fmt`, and use `cargo run --manifest-path
-examples/00-first-lesson/hello-world/Cargo.toml` to see the result.
-
-## Review
-
-1. Which command manages Rust toolchains?
-2. Which command runs the current Cargo package?
-3. Which command formats Rust source code?
+Next: [Module 1: Rust fundamentals](../01-fundamentals/index.md).

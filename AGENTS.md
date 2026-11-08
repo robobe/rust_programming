@@ -27,6 +27,10 @@ support an actual extension or testing need.
 When adding a lesson:
 
 1. Start with “By the end, you will be able to”.
+   In topic learning goals, bold each new term or keyword being taught and
+   link it to the section on the same page that explains it, using
+   `**[term](#section-anchor)**`. Link individual terms to their respective
+   sections when a goal introduces several concepts.
 2. Explain the intuition before the necessary mathematics.
 3. Add a diagram when it clarifies the concept.
    Use a bulleted topic list for module and lesson introductions; do not use
@@ -36,10 +40,14 @@ When adding a lesson:
 5. Add 3–5 option-based checkpoint quizzes, especially immediately after
    physics and mathematics explanations, and link the prerequisite and next
    topic.
-6. Separate major sections with `---`.
+6. Separate major sections and individual subtopics within a lesson with `---`.
 7. Keep MkDocs Material code-copy enabled for every code block.
 8. Add a concise docstring to every Python method or function introduced in a
    lesson example.
+9. When explaining multiple operators, put each operator on its own bullet
+   line. Bold the operator symbol and include its name, meaning, and a short
+   inline example. Use the same format for groups of syntax symbols, naming
+   them accurately as patterns, markers, or punctuation rather than operators.
 
 Use the existing `.quiz` radio-option pattern from `docs/javascripts/quiz.js`:
 each checkpoint must have plausible options, one correct answer, a unique radio
