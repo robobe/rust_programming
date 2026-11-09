@@ -22,7 +22,7 @@ types, error handling, and project tooling.
 4. Complete Modules 3–6 before the Module 7 capstone; apply Module 6 SOLID, composition, and testable design guidance in the project.
 5. Continue to Modules 8–13 using the prerequisites in the [syllabus](syllabus.md).
 
-Modules 0–1 are available. Module 2 Topics 1–7 are published, while Topic 8 and
-Module 3 Topics 1–2 are published; the remaining Module 3 topics and Modules 4–13
-are planned. Module 0 packaging, workspace, and embedded
-extensions are optional for the main learning path.
+Modules 0–1 and all seven Module 3 topics are available. Module 2 Topics 1–7
+and its Topic 9 review are published; Topic 8 is planned. Modules 4–13 are
+planned. Module 0 packaging, workspace, and embedded extensions are optional
+for the main learning path.

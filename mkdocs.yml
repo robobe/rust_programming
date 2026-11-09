@@ -64,3 +64,7 @@ nav:
       - Structs: modules/03-structs-enums-and-data-modeling/01-structs.md
       - Methods and associated functions: modules/03-structs-enums-and-data-modeling/02-methods.md
       - Enums: modules/03-structs-enums-and-data-modeling/03-enum.md
+      - "Topic 4: Pattern matching and destructuring": modules/03-structs-enums-and-data-modeling/04-pattern-matching.md
+      - "Topic 5: Option: representing missing values": modules/03-structs-enums-and-data-modeling/05-option.md
+      - "Topic 6: Result: representing operation outcomes": modules/03-structs-enums-and-data-modeling/06-result.md
+      - "Topic 7: Putting the task model together": modules/03-structs-enums-and-data-modeling/07-task-model.md

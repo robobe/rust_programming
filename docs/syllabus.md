@@ -2,9 +2,26 @@
 
 This syllabus moves from toolchain basics to ownership, then into application
 design and a tested command-line capstone. Modules 0–1 are available; Module 2 is
-partially implemented (Topics 1–7 are published, Topic 8 is planned). All other
-modules below are planned; Module 3 Topics 1–2 are published. Follow the numbered order; later modules name any
+partially implemented (Topics 1–7 are published, Topic 8 is planned). Module 3 is published; Modules 4–13 below are planned. Follow the numbered order; later modules name any
 additional prerequisites. A topic listed here is not necessarily a published lesson.
+
+## Hands-on data structures and patterns
+
+The practice ledger in
+`design/learning/data-structures-and-patterns-practice.md` tracks prerequisites,
+required checks, and planned/implemented status. It is linked from the repository's
+`design/README.md`; all assigned exercises are currently planned.
+
+- **Modules 1–2:** array search, in-place slice reversal, and duplicate removal.
+- **Modules 3–5:** a Vec-backed stack, its generic version, and public API tests.
+- **Module 6:** requirement-driven design patterns, queues with `VecDeque`,
+  frequency tables with `HashMap`, and uniqueness with `HashSet`.
+- **Module 8:** iterator-based collection pipelines.
+- **Module 9:** linked structures, a binary search tree, and graph traversal with BFS/DFS.
+
+Each exercise includes runnable code, edge-case checks, complexity discussion,
+and a collapsed solution. Existing lessons receive these as follow-up additions;
+future lessons include assigned practice when the prerequisites are satisfied.
 
 ## [0. Hello, Rust and tooling](modules/00-first-lesson/index.md)
 
@@ -45,7 +62,7 @@ Completion goal: write and test a function that summarizes a list of numbers.
 Completion goal: implement functions that read and update caller-owned data
 without unnecessary clones, and explain a borrow-checker diagnostic.
 
-## [3. Structs, enums, and data modeling](modules/03-structs-enums-and-data-modeling/index.md) — Topics 1–2 published
+## [3. Structs, enums, and data modeling](modules/03-structs-enums-and-data-modeling/index.md) — all seven topics published
 
 - Define structs and implement methods with `impl` blocks.
 - Use associated functions and model domain data.

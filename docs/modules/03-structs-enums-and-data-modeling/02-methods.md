@@ -194,4 +194,4 @@ check it. Then change `rename` to accept a string literal and an owned
 <p class="quiz-result" aria-live="polite"></p>
 </div>
 
-Next: [Topic 3, Enums: representing alternatives](index.md#3-enums-representing-alternatives) (planned).
+Next: [Topic 3, Enums: representing alternatives](03-enum.md).

@@ -493,4 +493,4 @@ The demo's README in `examples/03-structs-enums-and-data-modeling/03-enums/` rec
 - Custom enums provide clear, type-safe alternatives for domain-specific needs
 - Struct-like variants with named fields offer the clearest representation for complex data
 
-Next: [Topic 4: Pattern matching and destructuring](index.md#4-pattern-matching-and-destructuring) (planned).
+Next: [Topic 4: Pattern matching and destructuring](04-pattern-matching.md).

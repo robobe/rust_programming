@@ -9,7 +9,7 @@
 - Model a task with a status enum and methods for reading and updating it.
 
 Prerequisite: [Module 2: Ownership and borrowing](../02-ownership-and-borrowing/index.md).
-Topics 1–2 are published; Topics 3–7 are planned. Follow the topics in order, extending the same `Task` example
+All seven topics are published. Follow the topics in order, extending the same `Task` example
 from its first struct through the final model.
 
 ---
@@ -45,6 +45,8 @@ Continue with [Methods and associated functions](02-methods.md).
 - Choosing a struct for related fields and an enum for alternatives
 - Adding `TaskStatus` in place of ambiguous status strings or conflicting Boolean flags
 
+Continue with [Enums: representing alternatives](03-enum.md).
+
 ### 4. Pattern matching and destructuring
 
 - Exhaustive `match` expressions and returning a value from each arm
@@ -52,6 +54,8 @@ Continue with [Methods and associated functions](02-methods.md).
 - Binding values, ignoring fields with `_` and `..`, and using match guards
 - Comparing a match on `&TaskStatus` with one that moves owned variant data
 - Choosing `if let` for one interesting pattern and handling other cases when needed
+
+Continue with [Pattern matching and destructuring](04-pattern-matching.md).
 
 ### 5. Option: representing missing values
 
@@ -62,6 +66,8 @@ Continue with [Methods and associated functions](02-methods.md).
 - Understanding `Option<&Task>` as a lookup that borrows a task when present
 - Avoiding `unwrap()` when absence is an expected outcome
 
+Continue with [Option: representing missing values](05-option.md).
+
 ### 6. Result: representing operation outcomes
 
 - `Ok(T)` and `Err(E)` as success and failure variants
@@ -69,6 +75,8 @@ Continue with [Methods and associated functions](02-methods.md).
 - Handling both outcomes explicitly with `match`
 - Returning `Result<(), TaskError>` from a completion method that rejects an already completed task; `()` means no success value
 - Leaving error propagation with `?` and broader error handling for Module 5
+
+Continue with [Result: representing operation outcomes](06-result.md).
 
 ### 7. Putting the task model together
 
@@ -78,6 +86,8 @@ Continue with [Methods and associated functions](02-methods.md).
 - Storing tasks in a `Vec<Task>` and finding one by identifier with a simple loop that returns `Option<&Task>`
 - Reporting an already completed task with `Result<(), TaskError>`
 - Testing construction, status changes, missing tasks, and rejected operations
+
+Continue with [Putting the task model together](07-task-model.md).
 
 ---
 

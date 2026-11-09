@@ -24,6 +24,12 @@ support an actual extension or testing need.
 
 ## Documentation rules
 
+When creating or revising a lesson, consult the
+[data structures and patterns practice plan](design/learning/data-structures-and-patterns-practice.md).
+Include assigned exercises whose prerequisites have been taught, and update the
+ledger with completion status and lesson/example paths. Mark an exercise implemented
+only after its runnable example, collapsed solution, and required checks are complete.
+
 When adding a lesson:
 
 1. Start with “By the end, you will be able to”.
@@ -48,6 +54,10 @@ When adding a lesson:
    line. Bold the operator symbol and include its name, meaning, and a short
    inline example. Use the same format for groups of syntax symbols, naming
    them accurately as patterns, markers, or punctuation rather than operators.
+10. Provide a solution for each exercise or sub-exercise in a collapsed
+    `??? success "Solution: …"` section immediately after its prompt. Include
+    runnable code where applicable, a brief explanation, and expected output.
+    Keep solutions hidden by default so learners can attempt the task first.
 
 Use the existing `.quiz` radio-option pattern from `docs/javascripts/quiz.js`:
 each checkpoint must have plausible options, one correct answer, a unique radio
