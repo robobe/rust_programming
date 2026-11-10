@@ -1,21 +1,30 @@
 # Move semantics
 
-## By the end, you will be able to
+By the end, you will be able to
 
-- Predict when assigning a heap-backed value moves ownership.
-- Explain why the old variable cannot be used after a move.
-- Recognize ownership transfer into and out of functions.
-- Read a moved-value compiler error as useful design feedback.
+- Predict **[moves during assignment](#the-intuition-one-owner-one-cleanup)** for owned strings.
+- Explain why a **[moved-from binding](#the-intuition-one-owner-one-cleanup)** cannot be used.
+- Trace **[ownership into functions](#moving-into-functions)** and **[returned ownership](#returning-ownership)**.
+- Interpret a **[moved-value diagnostic](#compiler-errors-are-ownership-feedback)**.
+
+Prerequisite: [Topic 1: Values, variables, and scope](01-values-variables-scope.md).
+Read each code-reading exercise before checking an answer. Snippets with local
+bindings belong inside `main`; helper functions belong at module scope. The
+complete runnable example includes all required definitions.
 
 ---
 
 ## The intuition: one owner, one cleanup
 
 For a heap-backed value such as `String`, the variable contains a small handle
-that points to data on the heap. If Rust copied that handle during assignment,
+that points to data on the heap. If assignment left two independent owners of that same allocation,
 two variables could try to release the same allocation. Rust avoids that
 problem by moving ownership: the destination becomes the owner and the source
 binding is no longer usable.
+
+### Code-reading exercise 1: trace the assignment
+
+Predict which binding remains usable after the assignment.
 
 ```rust
 let first = String::from("hello");
@@ -23,7 +32,7 @@ let second = first; // ownership moves from `first` to `second`
 println!("{second}");
 ```
 
-## Checkpoint 1
+### Check your prediction
 
 <div class="quiz" data-answer="b" data-explanation="The destination becomes the unique owner, so the source binding is no longer usable.">
 <p>What happens to <code>first</code> after <code>let second = first</code> when the value is a <code>String</code>?</p>
@@ -31,7 +40,7 @@ println!("{second}");
 <label><input type="radio" name="move-source" value="b"> It is moved from and cannot be used</label><br>
 <label><input type="radio" name="move-source" value="c"> It becomes a shared global variable</label><br>
 <button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
+<p class="quiz-result" aria-live="polite"></p>
 </div>
 
 The text is not copied by this assignment. The `String` handle and its heap
@@ -45,10 +54,12 @@ no longer an owner:
 This is a compile-time rule, so the program cannot accidentally use a moved
 value or free its allocation twice.
 
-![Conceptual stack and heap layout while String ownership moves](images/move-semantics-memory-layout.svg)
+![Conceptual stack and heap layout while String ownership moves](images/move-assignment.svg)
 
 The diagram is conceptual: it shows ownership and pointers, not literal
 addresses or the exact allocator representation.
+
+---
 
 ## Compiler errors are ownership feedback
 
@@ -58,6 +69,8 @@ history. It means:
 1. A value had an owner.
 2. An operation moved ownership somewhere else.
 3. Later code tried to use the old binding.
+
+### Code-reading exercise 2: will this program run?
 
 Here is a deliberately tricky example. The `println!` looks harmless because
 it only reads `title`, but reading still requires the binding to be valid:
@@ -71,6 +84,17 @@ fn main() {
     println!("current: {title}"); // Error: `title` was moved above.
 }
 ```
+
+### Check your prediction
+
+<div class="quiz" data-answer="c" data-explanation="The message identifies the earlier move and the later use of the old binding, so it is ownership feedback rather than a runtime failure.">
+<p>Does this program print both lines, and which operation causes the problem?</p>
+<label><input type="radio" name="move-diagnostic" value="a"> It prints both lines because println! only reads</label><br>
+<label><input type="radio" name="move-diagnostic" value="b"> It prints the archived line, then fails at runtime</label><br>
+<label><input type="radio" name="move-diagnostic" value="c"> It does not compile: assigning title to archived_title moves it before the later print</label><br>
+<button class="quiz-check">Check answer</button>
+<p class="quiz-result" aria-live="polite"></p>
+</div>
 
 The compiler rejects the whole program before it runs. This matters because a
 use-after-free would otherwise be a runtime memory-safety bug: the old binding
@@ -92,16 +116,12 @@ error[E0382]: borrow of moved value: `title`
    |                          ^^^^^ value borrowed here after move
 ```
 
-## Checkpoint 2
+![Memory ownership at the rejected use of title](images/move-diagnostic.svg)
 
-<div class="quiz" data-answer="c" data-explanation="The message identifies the earlier move and the later use of the old binding, so it is ownership feedback rather than a runtime failure.">
-<p>What does <code>borrow of moved value: title</code> tell you?</p>
-<label><input type="radio" name="move-diagnostic" value="a"> The compiler detected a slow heap allocation while the program was running</label><br>
-<label><input type="radio" name="move-diagnostic" value="b"> <code>title</code> was copied twice and needs manual cleanup</label><br>
-<label><input type="radio" name="move-diagnostic" value="c"> <code>title</code> was moved earlier, then used again later</label><br>
-<button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
-</div>
+
+---
+
+### Repair the ownership path
 
 The fix is to choose the intended ownership design. Use the new owner:
 
@@ -120,11 +140,19 @@ println!("archived: {archived_title}");
 `clone()` is an explicit heap-data copy, so it has a cost and communicates a
 different design from a cheap move of the `String` handle.
 
-## Moving into and out of functions
+![Using the current owner versus cloning into independent allocations](images/move-repair.svg)
 
-Passing an owned value to a function uses the same rule. The function becomes
-the owner for the duration of the call, then drops the value when its parameter
-leaves scope:
+
+---
+
+## Moving into functions
+
+Passing an owned value to a function uses the same rule. In the following example, the parameter owns
+the string until the call ends, when its value is dropped:
+
+### Code-reading exercise 3: follow the parameter
+
+After this call returns, can the caller print `message` again?
 
 ```rust
 fn take_ownership(text: String) {
@@ -136,18 +164,29 @@ take_ownership(message);
 // `message` cannot be used here because ownership moved into the function.
 ```
 
-## Checkpoint 3
+### Check your prediction
 
 <div class="quiz" data-answer="c" data-explanation="Passing a String by value transfers ownership to the parameter.">
-<p>What does <code>take_ownership(message)</code> do?</p>
-<label><input type="radio" name="move-function" value="a"> It always clones <code>message</code></label><br>
-<label><input type="radio" name="move-function" value="b"> It only borrows <code>message</code></label><br>
-<label><input type="radio" name="move-function" value="c"> It moves ownership into the function</label><br>
+<p>What happens if you add <code>println!("{message}");</code> after this call?</p>
+<label><input type="radio" name="move-function" value="a"> It prints hello because the function clones its input</label><br>
+<label><input type="radio" name="move-function" value="b"> It prints hello because the parameter returns automatically</label><br>
+<label><input type="radio" name="move-function" value="c"> Compilation fails: message moved into the parameter</label><br>
 <button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
+<p class="quiz-result" aria-live="polite"></p>
 </div>
 
+![String ownership moves into a parameter and ends at drop](images/move-function.svg)
+
+
+---
+
+## Returning ownership
+
 If the caller needs the value afterward, the function can return ownership:
+
+### Code-reading exercise 4: predict the returned value
+
+Trace the parameter and returned binding, then predict the output.
 
 ```rust
 fn give_back(text: String) -> String {
@@ -158,19 +197,24 @@ let message = give_back(String::from("hello"));
 println!("{message}");
 ```
 
-## Checkpoint 4
+### Check your prediction
 
 <div class="quiz" data-answer="a" data-explanation="Returning the String transfers ownership back to the caller under a new binding.">
-<p>Why can the caller use the result of <code>give_back</code>?</p>
-<label><input type="radio" name="move-return" value="a"> The function returns ownership to the caller</label><br>
-<label><input type="radio" name="move-return" value="b"> Rust makes every function parameter global</label><br>
-<label><input type="radio" name="move-return" value="c"> The heap allocation is never cleaned up</label><br>
+<p>What does the final print produce, and why is message usable?</p>
+<label><input type="radio" name="move-return" value="a"> It prints hello; the function returns ownership to the caller</label><br>
+<label><input type="radio" name="move-return" value="b"> It prints nothing; returning a String drops it first</label><br>
+<label><input type="radio" name="move-return" value="c"> It does not compile; functions cannot return owned strings</label><br>
 <button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
+<p class="quiz-result" aria-live="polite"></p>
 </div>
 
 Returning ownership works, but borrowing is often a better fit when a function
 only needs temporary access. The next lessons build on this distinction.
+
+![String ownership returns from a parameter to the caller](images/move-return.svg)
+
+
+---
 
 ## Complete runnable example
 
@@ -180,13 +224,7 @@ The lesson displays the same source file used by the matching demo:
 --8<-- "examples/02-ownership-and-borrowing/02-move-semantics/main.rs"
 ```
 
-Run it from the repository root:
-
-```bash
-rustc examples/02-ownership-and-borrowing/02-move-semantics/main.rs \
-  -o /tmp/rust-move-semantics
-/tmp/rust-move-semantics
-```
+![Combined assignment, call, and drop memory layout](images/move-semantics-memory-layout.svg)
 
 Expected output:
 
@@ -196,23 +234,69 @@ inside function: hello
 returned: ownership returned
 ```
 
-## Exercise: read the compiler message
+---
 
-1. Uncomment `println!("{first}");` after `let second = first`.
-2. Compile the program again.
-3. Find the line that says `borrow of moved value` or `use of moved value`.
-4. In the diagnostic, identify the line marked `value moved here` and the line
-   marked `value borrowed here after move`.
-5. Restore the working version, then change `take_ownership` to return the
-   `String` and assign the returned value back to a variable.
+## Hands-on repair exercises
 
-The compiler error is telling you that the ownership story in the code is
-incomplete: decide whether the function should consume the value, return it,
-or borrow it.
+The code-reading questions above use the shared quiz feedback: check an option
+to test your prediction. For these code-changing tasks, attempt the repair
+before opening its solution. Each solution is a standalone program; save it
+in a temporary `.rs` file, compile with `rustc`, and run it.
+
+### 1. Locate and repair a moved binding
+
+In the runnable demo, add `println!("{first}");` after `let second = first`.
+Compile and identify the move site and invalid later use in E0382. Repair the
+print without cloning or changing the move.
+
+??? success "Solution: print through the current owner"
+    ```rust
+    fn main() {
+        let first = String::from("hello");
+        let second = first;
+        println!("{second}");
+    }
+    ```
+
+    Assignment moves ownership from `first` to `second`. The diagnostic marks
+    that assignment as the move site and the added print as the later invalid
+    use. Printing `second` uses the current owner.
+    Expected output: `hello`.
 
 ---
 
-## Checkpoint 5
+### 2. Return ownership from the consuming function
+
+Change `take_ownership` to return its `String`. Capture the result and print
+it after the call, without using `clone()`.
+
+??? success "Solution: receive the returned owner"
+    ```rust
+    fn take_ownership(text: String) -> String {
+        println!("inside function: {text}");
+        text
+    }
+
+    fn main() {
+        let message = String::from("hello");
+        let returned = take_ownership(message);
+        assert_eq!(returned, "hello");
+        println!("returned: {returned}");
+    }
+    ```
+
+    `text` is the tail expression: it moves the string back to the caller,
+    where `returned` owns it. The old `message` binding stays moved from.
+    Expected output:
+
+    ```text
+    inside function: hello
+    returned: hello
+    ```
+
+---
+
+## Check your understanding
 
 <div class="quiz" data-answer="b" data-explanation="Moving the handle avoids copying the heap allocation and preserves one clear owner.">
 <p>Why does Rust move a <code>String</code> instead of silently copying it during assignment?</p>
@@ -220,12 +304,12 @@ or borrow it.
 <label><input type="radio" name="move-reason" value="b"> To keep one owner responsible for cleanup</label><br>
 <label><input type="radio" name="move-reason" value="c"> To prevent all heap allocation</label><br>
 <button class="quiz-check">Check answer</button>
-<p class="quiz-result"></p>
+<p class="quiz-result" aria-live="polite"></p>
 </div>
 
 ---
 
 ## Next
 
-Continue with [Copy and Clone](index.md#3-copy-and-clone) to learn why integers
+Continue with [Copy and Clone](03-copy-and-clone.md) to learn why integers
 behave differently from `String` during assignment.

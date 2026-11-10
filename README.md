@@ -29,3 +29,11 @@ examples and a command-line capstone.
 - `design/` — decisions and plans that need to outlive implementation
 - `.vscode/tasks.json` — build and preview tasks
 - `AGENTS.md` and `CONTEXT.md` — Codex project guidance
+
+## Rust references
+
+- [Google Rust Style Guide](https://google.github.io/styleguide/rustguide.html) —
+  guidance on code organization, naming, ownership, API design, and testing.
+  Some rules are specific to Google codebases.
+- [Comprehensive Rust](https://google.github.io/comprehensive-rust/) —
+  Google's Rust course, with explanations and exercises.

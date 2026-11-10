@@ -2,7 +2,8 @@
 
 Prerequisite: the stable Rust toolchain from Module 0.
 
-From the repository root, run:
+No external crates are needed. Rust runs directly; the course `.venv` is used
+for documentation tooling. From the repository root, run:
 
 ```bash
 rustc examples/03-structs-enums-and-data-modeling/02-methods/main.rs -o /tmp/rust-task-methods

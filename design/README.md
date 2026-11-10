@@ -1,5 +1,9 @@
 # Design notes
 
+- [Rust project structure and practices](learning/rust-project-practices.md):
+  plan Module 5's Cargo layout, test organization, quality checks, and reference guidance.
+- [Module 4 topic list](learning/module-04-topic-list.md): plan traits,
+  generics, dispatch, and generic-stack practice; Topic 1 is implemented.
 - [Data structures and patterns practice](learning/data-structures-and-patterns-practice.md):
   track hands-on exercises, prerequisites, target modules, checks, and completion.
 - [Complete Module 3](learning/module-03-completion.md): publish pattern

@@ -97,6 +97,6 @@ Model a task with a struct, status enum, and methods. Demonstrate a successful
 status change, a missing task through `Option`, and a rejected operation through
 `Result`, then explain why each outcome uses that type.
 
-Next: [Module 4: Traits and generics](../../syllabus.md#4-traits-and-generics-planned)
+Next: [Module 4: Traits and generics](../04-traits-and-generics/index.md)
 (planned). Encapsulation and validated API design are developed further in
 Module 6; borrowed structs and advanced ownership in enums return in Module 9.

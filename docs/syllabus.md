@@ -2,7 +2,7 @@
 
 This syllabus moves from toolchain basics to ownership, then into application
 design and a tested command-line capstone. Modules 0–1 are available; Module 2 is
-partially implemented (Topics 1–7 are published, Topic 8 is planned). Module 3 is published; Modules 4–13 below are planned. Follow the numbered order; later modules name any
+partially implemented (Topics 1–7 are published, Topic 8 is planned). Module 3 and Module 4 Topic 1 are published; Module 4 Topics 2–10 and Modules 5–13 are planned. Follow the numbered order; later modules name any
 additional prerequisites. A topic listed here is not necessarily a published lesson.
 
 ## Hands-on data structures and patterns
@@ -76,6 +76,9 @@ demonstrate success, a missing task with `Option`, and a rejected operation with
 
 ## 4. Traits and generics — planned
 
+The [Module 4 topic index](modules/04-traits-and-generics/index.md) is available;
+Topic 1 is published. Topics 2–10 remain planned, including generic-stack practice.
+
 - Define and implement traits.
 - Use generic functions, generic types, and trait bounds.
 - Derive common traits such as `Debug`, `Clone`, and `Default`.
@@ -90,6 +93,29 @@ generic function.
 - Create custom error types and propagate errors with `?`.
 - Organize modules, visibility, Cargo targets, and unit/integration tests.
 - Read files and test malformed input and missing files.
+
+### Planned topic: Rust project structure and best practices
+
+- **Cargo layout:** `Cargo.toml`, `Cargo.lock`, `src/`, `tests/`, `examples/`,
+  `benches/`, and generated `target/` output.
+- **Library and binary separation:** application logic in `src/lib.rs`, a thin
+  entry point in `src/main.rs`, and additional executables in `src/bin/`.
+- **Modules and visibility:** organize files, choose public interfaces, and keep
+  implementation details private.
+- **Test organization:** unit tests beside implementation, integration tests
+  under `tests/`, and documentation tests in public API examples.
+- **Dependencies and repository files:** normal, development, and optional
+  dependencies; lockfile policy, `.gitignore`, README, and API documentation.
+- **Development workflow:** `cargo fmt --check`, `cargo clippy`, `cargo check`,
+  and `cargo test`, followed by a minimal CI workflow running those checks.
+- **Style guidance:** use the official [Cargo package layout](https://doc.rust-lang.org/cargo/guide/project-layout.html)
+  and applicable recommendations from [Google's Rust Style Guide](https://google.github.io/styleguide/rustguide.html).
+  Distinguish Google codebase-specific rules from conventional Cargo practices.
+
+Hands-on goal: reorganize the task example into a library and thin CLI binary,
+then add passing unit, integration, and documentation tests. Provide collapsed
+exercise solutions and explain the purpose of each folder. Deeper API design
+and architecture remain in Module 6. This topic is planned, not yet implemented.
 
 Completion goal: build a library plus binary that loads data and reports errors
 without using `unwrap()` for expected failures.

@@ -2,30 +2,25 @@
 
 This example demonstrates Rust enums with variants, pattern matching, and the Task model.
 
-## Prerequisites
+## Prerequisites and commands
 
-- Install Rust: https://rustup.rs/
-- Clone this repository
-- Navigate to the examples directory
-
-## Running the Example
-
-From the repository root, run:
+Use stable Rust with rustfmt and complete Module 3 Topics 1–2 first. No
+external crates are needed. Rust runs directly; the course `.venv` is used
+for documentation tooling. Run from the repository root:
 
 ```bash
-uv run cargo run --example 03-enums
+rustc examples/03-structs-enums-and-data-modeling/03-enums/main.rs -o /tmp/rust-task-enums
+/tmp/rust-task-enums
+rustc --test examples/03-structs-enums-and-data-modeling/03-enums/main.rs -o /tmp/rust-task-enums-tests
+/tmp/rust-task-enums-tests
+rustfmt --check examples/03-structs-enums-and-data-modeling/03-enums/main.rs
 ```
 
-Or from the examples directory:
-
-```bash
-cd examples/03-structs-enums-and-data-modeling/03-enums
-uv run cargo run
-```
+The test command runs one test checking construction, completion, and cancellation.
 
 ## Expected Output
 
-```
+```text
 Created task: Task { id: 1, title: "Read the Rust book", status: Pending }
 Status: Pending
 Completed!
@@ -42,5 +37,5 @@ Status: Completed
 ## Limitations
 
 - The example is minimal and focuses on syntax demonstration
-- No persistence or validation
+- No persistence or validation; status setters are unconditional, with checked transitions introduced in Topic 6
 - Simple string handling

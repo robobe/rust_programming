@@ -147,4 +147,4 @@ success and rejection, and explain each borrowed and owned value.
 
 ## Next
 
-Continue with [Module 4: Traits and generics](../../syllabus.md#4-traits-and-generics-planned) (planned). Return to the [module index](index.md).
+Continue with [Module 4: Traits and generics](../04-traits-and-generics/index.md) (planned). Return to the [module index](index.md).

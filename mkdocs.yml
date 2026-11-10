@@ -68,3 +68,6 @@ nav:
       - "Topic 5: Option: representing missing values": modules/03-structs-enums-and-data-modeling/05-option.md
       - "Topic 6: Result: representing operation outcomes": modules/03-structs-enums-and-data-modeling/06-result.md
       - "Topic 7: Putting the task model together": modules/03-structs-enums-and-data-modeling/07-task-model.md
+  - "Module 4: Traits and generics":
+      - Topic index: modules/04-traits-and-generics/index.md
+      - "Topic 1: Generic functions": modules/04-traits-and-generics/01-generic-functions.md
